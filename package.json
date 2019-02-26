@@ -1,6 +1,6 @@
 {
   "name": "node-red-contrib-opcua-server",
-  "version": "0.2.0",
+  "version": "0.2.1",
   "description": "Node-RED contribution nodes with next generation OPC UA in a compact and less dependencies package.",
   "author": "Bianco Royal <developers@bianco-royal.de>",
   "repository": {
@@ -27,7 +27,7 @@
     "vm2": "3.6.10"
   },
   "scripts": {
-    "postinstall": "gulp publish && node ./opcuaCompact/create_certificates.js demo --dev -s -r ./certificates",
+    "postinstall": "gulp publish && node create_certificates.js demo --dev -s -r ./certificates",
     "test": "jest",
     "test:coverage": "jest --coverage",
     "release": "standard-version -a",
