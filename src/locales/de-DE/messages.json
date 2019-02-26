@@ -1,0 +1,9 @@
+{
+  "common": {
+    "status": {
+      "closed": "inaktiv",
+      "active": "aktiv",
+      "error": "Fehler"
+    }
+  }
+}

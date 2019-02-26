@@ -59,3 +59,12 @@ typings/
 
 # next.js build output
 .next
+
+\.idea/
+
+certificates/
+jcoverage/
+docs/
+opcuaCompact/
+
+\.jsinspect-results\.json
