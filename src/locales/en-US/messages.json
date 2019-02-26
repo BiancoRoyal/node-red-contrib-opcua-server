@@ -1,0 +1,14 @@
+{
+  "common": {
+    "contrib": {
+        "opcua": {
+          "status": {
+            "pending": "pending",
+            "active": "active",
+            "stopped": "stopped"
+          }
+        }
+      }
+    }
+  }
+}
