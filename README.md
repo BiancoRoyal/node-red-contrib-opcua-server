@@ -42,7 +42,7 @@ Contribution
 
 **Yes, sure!** Please help us to make it even better and send your pull requests or tests!
 
-####Happy coding!
+#### Happy coding!
 
 License
 -------
