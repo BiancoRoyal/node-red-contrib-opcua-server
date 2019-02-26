@@ -43,8 +43,8 @@
       "registerServerMethod": "Register Server Method",
       "discoveryServerEndpointUrl": "Endpoint Url",
       "capabilitiesForMDNS": "MDNS capabilities",
-      "delayToInit": "Delay Before Init",
-      "delayToClose": "Delay On Close",
+      "delayToInit": "Init Timeout",
+      "delayToClose": "Close Timeout",
       "serverShutdownTimeout": "Shutdown Timeout",
       "individualCerts": "Use individual Certificate Files"
     },

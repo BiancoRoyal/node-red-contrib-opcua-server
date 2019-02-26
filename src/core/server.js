@@ -4,6 +4,7 @@
  **/
 "use strict";
 module.exports = {
+  chore: require("./chore"),
   choreCompact: require("./chore").de.bianco.royal.compact,
   debugLog: require("./chore").de.bianco.royal.compact.opcuaServerDebug,
   detailLog: require("./chore").de.bianco.royal.compact.opcuaServerDetailsDebug,
@@ -17,20 +18,17 @@ module.exports = {
     node.alternateHostname = config.alternateHostname;
 
     // limits
-    node.maxAllowedSessionNumber =
-      parseInt(config.maxAllowedSessionNumber) || 4;
-    node.maxConnectionsPerEndpoint =
-      parseInt(config.maxConnectionsPerEndpoint) || 4;
-    node.maxAllowedSubscriptionNumber =
-      parseInt(config.maxAllowedSubscriptionNumber) || 50;
-    node.maxNodesPerRead = config.maxNodesPerRead || 1000;
-    node.maxNodesPerWrite = config.maxNodesPerWrite || 1000;
-    node.maxNodesPerHistoryReadData = config.maxNodesPerHistoryReadData || 100;
-    node.maxNodesPerBrowse = config.maxNodesPerBrowse || 3000;
+    node.maxAllowedSessionNumber = config.maxAllowedSessionNumber;
+    node.maxConnectionsPerEndpoint = config.maxConnectionsPerEndpoint;
+    node.maxAllowedSubscriptionNumber = config.maxAllowedSubscriptionNumber;
+    node.maxNodesPerRead = config.maxNodesPerRead;
+    node.maxNodesPerWrite = config.maxNodesPerWrite;
+    node.maxNodesPerHistoryReadData = config.maxNodesPerHistoryReadData;
+    node.maxNodesPerBrowse = config.maxNodesPerBrowse;
 
-    node.delayToInit = config.delayToInit || 1000;
-    node.delayToClose = config.delayToClose || 1000;
-    node.serverShutdownTimeout = config.serverShutdownTimeout || 3000;
+    node.delayToInit = config.delayToInit;
+    node.delayToClose = config.delayToClose;
+    node.serverShutdownTimeout = config.serverShutdownTimeout;
     node.showStatusActivities = config.showStatusActivities;
     node.showErrors = config.showErrors;
 
@@ -49,8 +47,10 @@ module.exports = {
 
     // discovery
     node.disableDiscovery = !config.serverDiscovery;
-    node.registerServerMethod = config.registerServerMethod || 3;
+    node.registerServerMethod = config.registerServerMethod;
     node.discoveryServerEndpointUrl = config.discoveryServerEndpointUrl;
+
+    /* istanbul ignore next */
     node.capabilitiesForMDNS = config.capabilitiesForMDNS
       ? config.capabilitiesForMDNS.split(",")
       : [config.capabilitiesForMDNS];
@@ -60,14 +60,15 @@ module.exports = {
   initialize: (node, options) => {
     return new module.exports.choreCompact.opcua.OPCUAServer(options);
   },
-  input: (node, msg) => {
-    module.exports.choreCompact.betterAssert(msg.payload);
-    node.warn(msg);
-  },
-  stop: (node, server, done) => {
-    if (server) {
-      server.shutdown(node.serverShutdownTimeout || 1000, done);
+  stop: (node, server) => {
+    async function shutdown() {
+      if (server) {
+        await server.shutdown(node.serverShutdownTimeout, () => {
+          module.exports.debugLog("Server shutdown is done");
+        });
+      }
     }
+    return shutdown();
   },
   loadNodeSets: (node, dirname) => {
     let standardNodeSetFile =
@@ -85,9 +86,11 @@ module.exports = {
               )
             );
           } else {
+            /* istanbul ignore next */
             xmlFiles.push(xmlsetFileName.path);
           }
 
+          /* istanbul ignore next */
           if (xmlsetFileName.path.includes("ISA95")) {
             // add server ISA95 extension to node-opcua
             module.exports.debugLog("installing ISA95 extend");
@@ -161,40 +164,41 @@ module.exports = {
     eventObjects
   ) => {
     return new Promise(function(resolve, reject) {
-      if (
-        server.engine &&
-        constructAddressSpaceScript &&
-        constructAddressSpaceScript !== ""
-      ) {
-        try {
-          constructAddressSpaceScript(
-            server,
-            server.engine.addressSpace,
-            eventObjects,
-            resolve
-          );
-        } catch (err) {
-          reject(err);
-        }
-      } else {
-        reject(
-          new Error("Wrong Parameters Construct AddressSpace From Script")
+      try {
+        constructAddressSpaceScript(
+          server,
+          server.engine.addressSpace,
+          eventObjects,
+          resolve
         );
+      } catch (err) {
+        reject(err);
       }
     });
   },
+  postInitialize: (node, opcuaServer) => {
+    node.contribOPCUACompact.eventObjects = {}; // event objects should stay in memory
+
+    let addressSpace = opcuaServer.engine.addressSpace;
+    addressSpace.registerNamespace("http://biancoroyal.de/UA/NodeRED/Compact/");
+
+    module.exports
+      .constructAddressSpaceFromScript(
+        opcuaServer,
+        node.contribOPCUACompact.constructAddressSpaceScript,
+        node.contribOPCUACompact.eventObjects
+      )
+      .then(() => {
+        module.exports.chore.setStatusActive(node);
+        node.emit("server_running");
+      })
+      .catch(err => {
+        module.exports.chore.setStatusError(node, err.message);
+        node.emit("server_start_error");
+      });
+  },
   run: (node, server) => {
     return new Promise(function(resolve, reject) {
-      if (!server) {
-        reject(new Error("Server Not Valid To Start"));
-        return;
-      }
-
-      if (!node) {
-        reject(new Error("Node Not Valid To Start"));
-        return;
-      }
-
       server.start(function(err) {
         if (err) {
           reject(err);
@@ -222,6 +226,7 @@ module.exports = {
             );
           }
 
+          /* istanbul ignore next */
           server.on("newChannel", channel => {
             module.exports.debugLog(
               "Client connected with address = " +
@@ -231,6 +236,7 @@ module.exports = {
             );
           });
 
+          /* istanbul ignore next */
           server.on("closeChannel", function(channel) {
             module.exports.debugLog(
               "Client disconnected with address = " +
@@ -240,6 +246,7 @@ module.exports = {
             );
           });
 
+          /* istanbul ignore next */
           server.on("create_session", function(session) {
             module.exports.debugLog(
               "############## SESSION CREATED ##############"
@@ -277,6 +284,7 @@ module.exports = {
             module.exports.debugLog("Session id:" + session.sessionId);
           });
 
+          /* istanbul ignore next */
           server.on("session_closed", function(session, reason) {
             module.exports.debugLog(
               "############## SESSION CLOSED ##############"

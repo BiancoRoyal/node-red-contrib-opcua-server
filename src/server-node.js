@@ -21,15 +21,19 @@ module.exports = function(RED) {
     coreChore.setStatusPending(node);
     coreServer.readConfigOfServerNode(node, nodeConfig);
 
-    let serveroptions = coreServer.defaultServerOptions();
-    serveroptions.nodeset_filename = coreServer.loadNodeSets(node, __dirname);
-    serveroptions.port = node.port;
     let opcuaServer;
+    let opcuaServerOptions = coreServer.defaultServerOptions();
+    opcuaServerOptions.nodeset_filename = coreServer.loadNodeSets(
+      node,
+      __dirname
+    );
+    opcuaServerOptions.port = node.port;
 
     node.contribOPCUACompact = {};
     node.contribOPCUACompact.initialized = false;
 
     // function placeholder to fill it later from vm2 script
+    /* istanbul ignore next */
     node.contribOPCUACompact.constructAddressSpaceScript = (
       server,
       constructAddressSpaceScript,
@@ -38,60 +42,57 @@ module.exports = function(RED) {
       coreServerSandbox.debugLog("Init Function Block Compact Server"); // placeholder function for sandbox compile
     };
 
-    node.contribOPCUACompact.postInitialize = () => {
-      node.contribOPCUACompact.eventObjects = {}; // event objects should stay in memory
-
-      let addressSpace = opcuaServer.engine.addressSpace;
-      addressSpace.registerNamespace(
-        "http://biancoroyal.de/UA/NodeRED/Compact/"
-      );
-
+    setTimeout(() => {
+      opcuaServer = coreServer.initialize(node, opcuaServerOptions);
+      opcuaServer.initialize(() => {
+        coreServer.postInitialize(node, opcuaServer);
+      });
       coreServer
-        .constructAddressSpaceFromScript(
-          opcuaServer,
-          node.contribOPCUACompact.constructAddressSpaceScript,
-          node.contribOPCUACompact.eventObjects
-        )
+        .run(node, opcuaServer)
         .then(() => {
+          coreServerSandbox.initialize(node, coreServer, (node, vm) => {
+            node.contribOPCUACompact.vm = vm;
+            vm.run(
+              "node.contribOPCUACompact.constructAddressSpaceScript = " +
+                nodeConfig.addressSpaceScript
+            );
+            node.contribOPCUACompact.initialized = true;
+            node.emit("server_node_running");
+          });
           coreChore.setStatusActive(node);
-          node.emit("server_running");
         })
         .catch(err => {
-          coreChore.setStatusError(node, err.message);
-          node.emit("server_start_error");
+          /* istanbul ignore next */
+          node.warn(err);
+          /* istanbul ignore next */
+          node.emit("server_node_error", err);
         });
-    };
+    }, node.delayToInit);
 
-    opcuaServer = coreServer.initialize(node, serveroptions);
-    opcuaServer.initialize(node.contribOPCUACompact.postInitialize);
-    coreServer
-      .run(node, opcuaServer)
-      .then(() => {
-        coreServerSandbox.initialize(node, coreServer, (node, vm) => {
-          node.contribOPCUACompact.vm = vm;
-          vm.run(
-            "node.contribOPCUACompact.constructAddressSpaceScript = " +
-              nodeConfig.addressSpaceScript
-          );
-          node.contribOPCUACompact.initialized = true;
-          node.emit("server_node_running");
+    node.on("close", async function(done) {
+      coreServer
+        .stop(node, opcuaServer)
+        .then(() => {
+          setTimeout(() => {
+            node.status({});
+            if (node.outstandingTimers) {
+              // only present if we init the sandbox
+              while (node.outstandingTimers.length > 0) {
+                /* istanbul ignore next */
+                clearTimeout(node.outstandingTimers.pop());
+              }
+              while (node.outstandingIntervals.length > 0) {
+                /* istanbul ignore next */
+                clearInterval(node.outstandingIntervals.pop());
+              }
+            }
+            done();
+          }, node.delayToClose);
+        })
+        .catch(err => {
+          /* istanbul ignore next */
+          coreServer.errorLog(err);
         });
-        coreChore.setStatusActive(node);
-      })
-      .catch(err => {
-        node.warn(err);
-        node.emit("server_node_error", err);
-      });
-
-    node.on("close", function(done) {
-      node.status({});
-      while (node.outstandingTimers.length > 0) {
-        clearTimeout(node.outstandingTimers.pop());
-      }
-      while (node.outstandingIntervals.length > 0) {
-        clearInterval(node.outstandingIntervals.pop());
-      }
-      coreServer.stop(node, opcuaServer, done);
     });
   }
 

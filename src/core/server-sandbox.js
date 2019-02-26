@@ -12,6 +12,7 @@ module.exports = {
     node.outstandingTimers = [];
     node.outstandingIntervals = [];
 
+    /* istanbul ignore next */
     const sandbox = {
       node,
       coreServer,

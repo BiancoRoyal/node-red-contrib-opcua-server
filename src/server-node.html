@@ -55,9 +55,24 @@
       },
       endpoint: { value: "" },
       acceptExternalCommands: { value: true },
-      maxAllowedSessionNumber: { value: "" },
-      maxConnectionsPerEndpoint: { value: "" },
-      maxAllowedSubscriptionNumber: { value: "" },
+      maxAllowedSessionNumber: {
+        value: 10,
+        validate: function(v) {
+          return v === "" || (RED.validators.number(v) && v > 0 && v <= 10);
+        }
+      },
+      maxConnectionsPerEndpoint: {
+        value: 10,
+        validate: function(v) {
+          return v === "" || (RED.validators.number(v) && v > 0 && v <= 10);
+        }
+      },
+      maxAllowedSubscriptionNumber: {
+        value: 100,
+        validate: function(v) {
+          return v === "" || (RED.validators.number(v) && v > 0 && v <= 10000);
+        }
+      },
       alternateHostname: { value: "" },
       name: { value: "" },
       showStatusActivities: { value: false },
@@ -98,26 +113,26 @@
         }
       },
       delayToInit: {
-        value: 1000,
+        value: 100,
         validate: function(v) {
           return (
-            v === "" || (RED.validators.number(v) && v >= 100 && v <= 200000)
+            v === "" || (RED.validators.number(v) && v >= 10 && v <= 200000)
           );
         }
       },
       delayToClose: {
-        value: 1000,
+        value: 200,
         validate: function(v) {
           return (
-            v === "" || (RED.validators.number(v) && v >= 100 && v <= 15000)
+            v === "" || (RED.validators.number(v) && v >= 10 && v <= 15000)
           );
         }
       },
       serverShutdownTimeout: {
-        value: 3000,
+        value: 100,
         validate: function(v) {
           return (
-            v === "" || (RED.validators.number(v) && v >= 100 && v <= 15000)
+            v === "" || (RED.validators.number(v) && v >= 10 && v <= 15000)
           );
         }
       },
@@ -572,15 +587,15 @@
           <hr>
           <div class="form-row">
               <label for="node-input-delayToInit"><i class="icon-time"></i> <span data-i18n="opcua-compact-contrib.label.delayToInit"></span></label>
-              <input type="text" id="node-input-delayToInit" placeholder="1000" style="width:80px">
+              <input type="text" id="node-input-delayToInit" placeholder="100" style="width:80px">
           </div>
           <div class="form-row">
               <label for="node-input-serverShutdownTimeout"><i class="icon-time"></i> <span data-i18n="opcua-compact-contrib.label.serverShutdownTimeout"></span></label>
-              <input type="text" id="node-input-serverShutdownTimeout" placeholder="3000" style="width:80px">
+              <input type="text" id="node-input-serverShutdownTimeout" placeholder="100" style="width:80px">
           </div>
           <div class="form-row">
               <label for="node-input-delayToClose"><i class="icon-time"></i> <span data-i18n="opcua-compact-contrib.label.delayToClose"></span></label>
-              <input type="text" id="node-input-delayToClose" placeholder="1000" style="width:80px">
+              <input type="text" id="node-input-delayToClose" placeholder="200" style="width:80px">
           </div>
           <div class="form-row">
               <label for="node-input-name"><i class="fa fa-tag"></i> <span data-i18n="node-red:common.label.name"></span></label>
@@ -614,7 +629,7 @@
           </div>
           <div class="form-row">
               <label for="node-input-maxAllowedSubscriptionNumber"><i class="icon-list"></i> <span data-i18n="opcua-compact-contrib.label.maxAllowedSubscriptionNumber"></span></label>
-              <input type="text" id="node-input-maxAllowedSubscriptionNumber" placeholder="50" style="width:80px">
+              <input type="text" id="node-input-maxAllowedSubscriptionNumber" placeholder="100" style="width:80px">
           </div>
           <div class="form-row">
               <label for="node-input-maxNodesPerRead"><i class="icon-list"></i> <span data-i18n="opcua-compact-contrib.label.maxNodesPerRead"></span></label>
@@ -630,7 +645,7 @@
           </div>
           <div class="form-row">
               <label for="node-input-maxNodesPerBrowse"><i class="icon-list"></i> <span data-i18n="opcua-compact-contrib.label.maxNodesPerBrowse"></span></label>
-              <input type="text" id="node-input-maxNodesPerBrowse" placeholder="2000" style="width:80px">
+              <input type="text" id="node-input-maxNodesPerBrowse" placeholder="3000" style="width:80px">
           </div>
       </div>
       <div id="compact-server-tab-security" style="display:none">
@@ -673,12 +688,12 @@
               <div class="form-row">
                   <label for="node-input-publicCertificateFile"><i class="fa fa-file"></i>
                   <span data-i18n="opcua-compact-contrib.label.publicCertificateFile"></span></label>
-                  <input type="text" id="node-input-publicCertificateFile" placeholder="./certificates/server_selfsigned_cert_2048.pem" style="min-width:480px">
+                  <input type="text" id="node-input-publicCertificateFile" placeholder="../certificates/server_selfsigned_cert_2048.pem" style="min-width:480px">
               </div>
               <div class="form-row">
                   <label for="node-input-privateCertificateFile"><i class="fa fa-file"></i>
                   <span data-i18n="opcua-compact-contrib.label.privateCertificateFile"></span></label>
-                  <input type="text" id="node-input-privateCertificateFile" placeholder="./certificates/server_key_2048.pem" style="min-width:480px">
+                  <input type="text" id="node-input-privateCertificateFile" placeholder="../certificates/server_key_2048.pem" style="min-width:480px">
               </div>
               <hr>
           </div>

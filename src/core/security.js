@@ -6,6 +6,7 @@
 const path = require("path");
 const requireResolve = require.resolve("node-opcua-server");
 
+/* istanbul ignore next */
 function isWindows() {
   return process.platform === "win32";
 }
@@ -14,6 +15,7 @@ function checkUserLogon() {
   return true;
 }
 
+/* istanbul ignore next */
 function getPackagePathFromIndex() {
   if (isWindows()) {
     return requireResolve.replace("\\index.js", "");
