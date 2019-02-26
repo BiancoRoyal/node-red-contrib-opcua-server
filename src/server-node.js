@@ -7,7 +7,6 @@ module.exports = function(RED) {
   // SOURCE-MAP-REQUIRED
   "use strict";
   function OPCUACompactServerNode(nodeConfig) {
-    const coreChore = require("./core/chore");
     const coreServer = require("./core/server");
     const coreServerSandbox = require("./core/server-sandbox");
 
@@ -18,11 +17,12 @@ module.exports = function(RED) {
     let node = this;
     let opcuaServer;
     coreServer.detailLog("create node " + node.id);
+    coreServer.choreCompact.listenForErrors(node);
+    coreServer.choreCompact.setStatusInit(node);
+    coreServer.readConfigOfServerNode(node, nodeConfig);
 
     const initOPCUATimer = setTimeout(() => {
-      coreChore.listenForErrors(node);
-      coreChore.setStatusPending(node);
-      coreServer.readConfigOfServerNode(node, nodeConfig);
+      coreServer.choreCompact.setStatusPending(node);
 
       let opcuaServerOptions = coreServer.defaultServerOptions();
       opcuaServerOptions.nodeset_filename = coreServer.loadOPCUANodeSets(
@@ -61,7 +61,7 @@ module.exports = function(RED) {
             node.contribOPCUACompact.initialized = true;
             node.emit("server_node_running");
           });
-          coreChore.setStatusActive(node);
+          coreServer.choreCompact.setStatusActive(node);
         })
         .catch(err => {
           /* istanbul ignore next */
@@ -86,7 +86,7 @@ module.exports = function(RED) {
       done();
     }
 
-    node.on("close", function(done) {
+    function closeServer(done) {
       if (initOPCUATimer) {
         clearTimeout(initOPCUATimer);
       }
@@ -94,7 +94,7 @@ module.exports = function(RED) {
       if (opcuaServer) {
         coreServer.stop(node, opcuaServer, () => {
           setTimeout(() => {
-            coreChore.setStatusClosed(node);
+            coreServer.choreCompact.setStatusClosed(node);
             coreServer.detailLog("close node " + node.id);
             cleanSandboxTimer(node, done);
           }, node.delayToClose);
@@ -102,6 +102,10 @@ module.exports = function(RED) {
       } else {
         done();
       }
+    }
+
+    node.on("close", done => {
+      closeServer(done);
     });
   }
 

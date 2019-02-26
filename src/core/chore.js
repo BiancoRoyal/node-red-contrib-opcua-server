@@ -22,42 +22,49 @@ module.exports = {
           coreSecurity: require("./security"),
           opcuaNodeColor: "#20B2aa",
           opcuaNodeCategory: "opcua",
-          opcuaNodeIcon: "icon.png"
+          opcuaNodeIcon: "icon.png",
+          listenForErrors: node => {
+            node.on("error", err => {
+              module.exports.de.bianco.royal.compact.opcuaErrorDebug(err);
+            });
+          },
+          setStatusPending: node => {
+            node.status({
+              fill: "yellow",
+              shape: "ring",
+              text: "pending"
+            });
+          },
+          setStatusInit: node => {
+            node.status({
+              fill: "yellow",
+              shape: "dot",
+              text: "init"
+            });
+          },
+          setStatusActive: node => {
+            node.status({
+              fill: "green",
+              shape: "dot",
+              text: "active"
+            });
+          },
+          setStatusClosed: node => {
+            node.status({
+              fill: "yellow",
+              shape: "ring",
+              text: "closed"
+            });
+          },
+          setStatusError: (node, text) => {
+            node.status({
+              fill: "red",
+              shape: "dot",
+              text
+            });
+          }
         }
       }
     }
-  },
-  listenForErrors: node => {
-    node.on("error", err => {
-      module.exports.de.bianco.royal.compact.opcuaErrorDebug(err);
-    });
-  },
-  setStatusPending: node => {
-    node.status({
-      fill: "yellow",
-      shape: "dot",
-      text: "pending"
-    });
-  },
-  setStatusActive: node => {
-    node.status({
-      fill: "green",
-      shape: "dot",
-      text: "active"
-    });
-  },
-  setStatusClosed: node => {
-    node.status({
-      fill: "yellow",
-      shape: "ring",
-      text: "closed"
-    });
-  },
-  setStatusError: (node, text) => {
-    node.status({
-      fill: "red",
-      shape: "dot",
-      text
-    });
   }
 };

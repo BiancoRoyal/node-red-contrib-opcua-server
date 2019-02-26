@@ -113,7 +113,7 @@
         }
       },
       delayToInit: {
-        value: 100,
+        value: 1000,
         validate: function(v) {
           return (
             v === "" || (RED.validators.number(v) && v >= 10 && v <= 200000)
@@ -587,7 +587,7 @@
           <hr>
           <div class="form-row">
               <label for="node-input-delayToInit"><i class="icon-time"></i> <span data-i18n="opcua-compact-contrib.label.delayToInit"></span></label>
-              <input type="text" id="node-input-delayToInit" placeholder="100" style="width:80px">
+              <input type="text" id="node-input-delayToInit" placeholder="1000" style="width:80px">
           </div>
           <div class="form-row">
               <label for="node-input-serverShutdownTimeout"><i class="icon-time"></i> <span data-i18n="opcua-compact-contrib.label.serverShutdownTimeout"></span></label>
