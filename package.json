@@ -21,7 +21,7 @@
   "dependencies": {
     "better-assert": "1.0.2",
     "debug": "4.1.1",
-    "node-opcua": "2.0.0-alpha.13",
+    "node-opcua": "0.5.8",
     "node-opcua-pki": "1.0.3",
     "node-opcua-isa95": "0.0.5",
     "vm2": "3.6.10"
