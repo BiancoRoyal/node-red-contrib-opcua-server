@@ -62,34 +62,36 @@ module.exports = function(RED) {
         });
     };
 
-    setTimeout(() => {
-      opcuaServer = coreServer.initialize(node, serveroptions);
-      opcuaServer.initialize(node.contribOPCUACompact.postInitialize);
-      coreServer
-        .run(node, opcuaServer)
-        .then(() => {
-          coreServerSandbox.initialize(node, coreServer, (node, vm) => {
-            node.contribOPCUACompact.vm = vm;
-            vm.run(
-              "node.contribOPCUACompact.constructAddressSpaceScript = " +
-                nodeConfig.addressSpaceScript
-            );
-            node.contribOPCUACompact.initialized = true;
-            node.emit("server_node_running");
-          });
-          coreChore.setStatusActive(node);
-        })
-        .catch(err => {
-          node.warn(err);
-          node.emit("server_node_error", err);
+    opcuaServer = coreServer.initialize(node, serveroptions);
+    opcuaServer.initialize(node.contribOPCUACompact.postInitialize);
+    coreServer
+      .run(node, opcuaServer)
+      .then(() => {
+        coreServerSandbox.initialize(node, coreServer, (node, vm) => {
+          node.contribOPCUACompact.vm = vm;
+          vm.run(
+            "node.contribOPCUACompact.constructAddressSpaceScript = " +
+              nodeConfig.addressSpaceScript
+          );
+          node.contribOPCUACompact.initialized = true;
+          node.emit("server_node_running");
         });
-    }, node.delayToInit);
+        coreChore.setStatusActive(node);
+      })
+      .catch(err => {
+        node.warn(err);
+        node.emit("server_node_error", err);
+      });
 
     node.on("close", function(done) {
       node.status({});
-      coreServer.stop(node, opcuaServer, () => {
-        setTimeout(done, node.delayToClose);
-      });
+      while (node.outstandingTimers.length > 0) {
+        clearTimeout(node.outstandingTimers.pop());
+      }
+      while (node.outstandingIntervals.length > 0) {
+        clearInterval(node.outstandingIntervals.pop());
+      }
+      coreServer.stop(node, opcuaServer, done);
     });
   }
 
