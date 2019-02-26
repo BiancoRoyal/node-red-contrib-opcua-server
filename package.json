@@ -47,8 +47,8 @@
     "opcua",
     "automation",
     "fieldbus",
-    "iot",
-    "biancode",
+    "iiot",
+    "biancoroyal",
     "modbus"
   ],
   "devDependencies": {
