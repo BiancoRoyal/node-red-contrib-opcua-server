@@ -60,17 +60,15 @@ module.exports = {
   initialize: (node, options) => {
     return new module.exports.choreCompact.opcua.OPCUAServer(options);
   },
-  stop: (node, server) => {
-    async function shutdown() {
-      if (server) {
-        await server.shutdown(node.serverShutdownTimeout, () => {
-          module.exports.debugLog("Server shutdown is done");
-        });
-      }
+  stop: (node, server, done) => {
+    if (server) {
+      server.shutdown(node.serverShutdownTimeout, done);
+    } else {
+      /* istanbul ignore next */
+      done();
     }
-    return shutdown();
   },
-  loadNodeSets: (node, dirname) => {
+  loadOPCUANodeSets: (node, dirname) => {
     let standardNodeSetFile =
       module.exports.choreCompact.opcuaNodesets.standard_nodeset_file;
     let xmlFiles = [standardNodeSetFile];

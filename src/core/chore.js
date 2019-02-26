@@ -46,6 +46,13 @@ module.exports = {
       text: "active"
     });
   },
+  setStatusClosed: node => {
+    node.status({
+      fill: "yellow",
+      shape: "ring",
+      text: "closed"
+    });
+  },
   setStatusError: (node, text) => {
     node.status({
       fill: "red",
