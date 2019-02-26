@@ -1,0 +1,14 @@
+.git
+.idea
+test
+code/
+node_modules
+.gitignore
+*.iml
+Example.png
+*EXAMPLE.png
+*.conf.js
+*.log
+pki/
+.vscode/
+jcoverage/
