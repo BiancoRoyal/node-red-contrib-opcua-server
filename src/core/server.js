@@ -4,7 +4,6 @@
  **/
 "use strict";
 module.exports = {
-  chore: require("./chore"),
   choreCompact: require("./chore").de.bianco.royal.compact,
   debugLog: require("./chore").de.bianco.royal.compact.opcuaServerDebug,
   detailLog: require("./chore").de.bianco.royal.compact.opcuaServerDetailsDebug,
@@ -60,17 +59,10 @@ module.exports = {
   initialize: (node, options) => {
     return new module.exports.choreCompact.opcua.OPCUAServer(options);
   },
-  stop: (node, server) => {
-    async function shutdown() {
-      if (server) {
-        await server.shutdown(node.serverShutdownTimeout, () => {
-          module.exports.debugLog("Server shutdown is done");
-        });
-      }
-    }
-    return shutdown();
+  stop: (node, server, done) => {
+    server.shutdown(node.serverShutdownTimeout, done);
   },
-  loadNodeSets: (node, dirname) => {
+  loadOPCUANodeSets: (node, dirname) => {
     let standardNodeSetFile =
       module.exports.choreCompact.opcuaNodesets.standard_nodeset_file;
     let xmlFiles = [standardNodeSetFile];
@@ -189,11 +181,11 @@ module.exports = {
         node.contribOPCUACompact.eventObjects
       )
       .then(() => {
-        module.exports.chore.setStatusActive(node);
+        module.exports.choreCompact.setStatusActive(node);
         node.emit("server_running");
       })
       .catch(err => {
-        module.exports.chore.setStatusError(node, err.message);
+        module.exports.choreCompact.setStatusError(node, err.message);
         node.emit("server_start_error");
       });
   },

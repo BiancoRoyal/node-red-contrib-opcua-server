@@ -7,7 +7,6 @@ module.exports = function(RED) {
   // SOURCE-MAP-REQUIRED
   "use strict";
   function OPCUACompactServerNode(nodeConfig) {
-    const coreChore = require("./core/chore");
     const coreServer = require("./core/server");
     const coreServerSandbox = require("./core/server-sandbox");
 
@@ -16,37 +15,40 @@ module.exports = function(RED) {
     this.port = nodeConfig.port;
 
     let node = this;
-
-    coreChore.listenForErrors(node);
-    coreChore.setStatusPending(node);
+    let opcuaServer;
+    coreServer.detailLog("create node " + node.id);
+    coreServer.choreCompact.listenForErrors(node);
+    coreServer.choreCompact.setStatusInit(node);
     coreServer.readConfigOfServerNode(node, nodeConfig);
 
-    let opcuaServer;
-    let opcuaServerOptions = coreServer.defaultServerOptions();
-    opcuaServerOptions.nodeset_filename = coreServer.loadNodeSets(
-      node,
-      __dirname
-    );
-    opcuaServerOptions.port = node.port;
+    const initOPCUATimer = setTimeout(() => {
+      coreServer.choreCompact.setStatusPending(node);
 
-    node.contribOPCUACompact = {};
-    node.contribOPCUACompact.initialized = false;
+      let opcuaServerOptions = coreServer.defaultServerOptions();
+      opcuaServerOptions.nodeset_filename = coreServer.loadOPCUANodeSets(
+        node,
+        __dirname
+      );
+      opcuaServerOptions.port = node.port;
 
-    // function placeholder to fill it later from vm2 script
-    /* istanbul ignore next */
-    node.contribOPCUACompact.constructAddressSpaceScript = (
-      server,
-      constructAddressSpaceScript,
-      eventObjects
-    ) => {
-      coreServerSandbox.debugLog("Init Function Block Compact Server"); // placeholder function for sandbox compile
-    };
+      node.contribOPCUACompact = {};
+      node.contribOPCUACompact.initialized = false;
 
-    setTimeout(() => {
+      // function placeholder to fill it later from vm2 script
+      /* istanbul ignore next */
+      node.contribOPCUACompact.constructAddressSpaceScript = (
+        server,
+        constructAddressSpaceScript,
+        eventObjects
+      ) => {
+        coreServerSandbox.debugLog("Init Function Block Compact Server"); // placeholder function for sandbox compile
+      };
+
       opcuaServer = coreServer.initialize(node, opcuaServerOptions);
       opcuaServer.initialize(() => {
         coreServer.postInitialize(node, opcuaServer);
       });
+
       coreServer
         .run(node, opcuaServer)
         .then(() => {
@@ -59,7 +61,7 @@ module.exports = function(RED) {
             node.contribOPCUACompact.initialized = true;
             node.emit("server_node_running");
           });
-          coreChore.setStatusActive(node);
+          coreServer.choreCompact.setStatusActive(node);
         })
         .catch(err => {
           /* istanbul ignore next */
@@ -69,30 +71,41 @@ module.exports = function(RED) {
         });
     }, node.delayToInit);
 
-    node.on("close", async function(done) {
-      coreServer
-        .stop(node, opcuaServer)
-        .then(() => {
-          setTimeout(() => {
-            node.status({});
-            if (node.outstandingTimers) {
-              // only present if we init the sandbox
-              while (node.outstandingTimers.length > 0) {
-                /* istanbul ignore next */
-                clearTimeout(node.outstandingTimers.pop());
-              }
-              while (node.outstandingIntervals.length > 0) {
-                /* istanbul ignore next */
-                clearInterval(node.outstandingIntervals.pop());
-              }
-            }
-            done();
-          }, node.delayToClose);
-        })
-        .catch(err => {
+    function cleanSandboxTimer(node, done) {
+      if (node.outstandingTimers) {
+        // only present if we init the sandbox
+        while (node.outstandingTimers.length > 0) {
           /* istanbul ignore next */
-          coreServer.errorLog(err);
+          clearTimeout(node.outstandingTimers.pop());
+        }
+        while (node.outstandingIntervals.length > 0) {
+          /* istanbul ignore next */
+          clearInterval(node.outstandingIntervals.pop());
+        }
+      }
+      done();
+    }
+
+    function closeServer(done) {
+      if (initOPCUATimer) {
+        clearTimeout(initOPCUATimer);
+      }
+
+      if (opcuaServer) {
+        coreServer.stop(node, opcuaServer, () => {
+          setTimeout(() => {
+            coreServer.choreCompact.setStatusClosed(node);
+            coreServer.detailLog("close node " + node.id);
+            cleanSandboxTimer(node, done);
+          }, node.delayToClose);
         });
+      } else {
+        done();
+      }
+    }
+
+    node.on("close", done => {
+      closeServer(done);
     });
   }
 
