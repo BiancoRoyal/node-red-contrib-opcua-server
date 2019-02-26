@@ -12,3 +12,4 @@ Example.png
 pki/
 .vscode/
 jcoverage/
+test/
