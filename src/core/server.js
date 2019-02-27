@@ -24,6 +24,8 @@ module.exports = {
     node.maxNodesPerWrite = config.maxNodesPerWrite;
     node.maxNodesPerHistoryReadData = config.maxNodesPerHistoryReadData;
     node.maxNodesPerBrowse = config.maxNodesPerBrowse;
+    node.maxBrowseContinuationPoints = config.maxBrowseContinuationPoints;
+    node.maxHistoryContinuationPoints = config.maxHistoryContinuationPoints;
 
     node.delayToInit = config.delayToInit;
     node.delayToClose = config.delayToClose;
@@ -97,37 +99,37 @@ module.exports = {
 
     return xmlFiles;
   },
-  defaultServerOptions: () => {
+  defaultServerOptions: node => {
     const applicationUri = module.exports.choreCompact.opcua.makeApplicationUrn(
       module.exports.choreCompact.opcua.get_fully_qualified_domain_name(),
       "NodeOPCUA-Server"
     );
 
-    const certificateFile = module.exports.choreCompact.coreSecurity.serverCertificateFile(
-      "2048"
-    );
-    const privateKeyFile = module.exports.choreCompact.coreSecurity.serverKeyFile(
-      "2048"
-    );
+    const certificateFile =
+      node.publicCertificateFile ||
+      module.exports.choreCompact.coreSecurity.serverCertificateFile("2048");
+    const privateKeyFile =
+      node.privateCertificateFile ||
+      module.exports.choreCompact.coreSecurity.serverKeyFile("2048");
 
     return {
-      port: 54840,
+      port: node.port,
       nodeset_filename:
         module.exports.choreCompact.opcuaNodesets.standard_nodeset_file,
-      resourcePath: "UA/NodeRED/Compact",
+      resourcePath: node.endpoint || "UA/NodeRED/Compact",
       buildInfo: {
         productName: "Node-RED OPC UA Compact Server",
-        buildNumber: "20181001",
-        buildDate: new Date(2018, 10, 1)
+        buildNumber: "20190228",
+        buildDate: new Date(2019, 2, 28)
       },
       serverCapabilities: {
-        maxBrowseContinuationPoints: 10,
-        maxHistoryContinuationPoints: 10,
+        maxBrowseContinuationPoints: node.maxBrowseContinuationPoints,
+        maxHistoryContinuationPoints: node.maxHistoryContinuationPoints,
         operationLimits: {
-          maxNodesPerRead: 1000,
-          maxNodesPerWrite: 1000,
-          maxNodesPerHistoryReadData: 100,
-          maxNodesPerBrowse: 3000
+          maxNodesPerRead: node.maxNodesPerRead,
+          maxNodesPerWrite: node.maxNodesPerWrite,
+          maxNodesPerHistoryReadData: node.maxNodesPerHistoryReadData,
+          maxNodesPerBrowse: node.maxNodesPerBrowse
         }
       },
       serverInfo: {
@@ -138,16 +140,17 @@ module.exports = {
         discoveryProfileUri: null,
         discoveryUrls: []
       },
-      maxAllowedSessionNumber: 4,
-      maxConnectionsPerEndpoint: 4,
-      allowAnonymous: true,
+      alternateHostname: node.alternateHostname,
+      maxAllowedSessionNumber: node.maxAllowedSessionNumber,
+      maxConnectionsPerEndpoint: node.maxConnectionsPerEndpoint,
+      allowAnonymous: node.allowAnonymous,
       certificateFile,
       privateKeyFile,
       userManager: {
         isValidUser: module.exports.choreCompact.coreSecurity.checkUserLogon
       },
-      isAuditing: false,
-      disableDiscovery: false
+      isAuditing: node.isAuditing,
+      disableDiscovery: node.disableDiscovery
     };
   },
   constructAddressSpaceFromScript: (

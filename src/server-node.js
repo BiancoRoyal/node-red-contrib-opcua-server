@@ -19,19 +19,17 @@ module.exports = function(RED) {
     coreServer.detailLog("create node " + node.id);
     coreServer.choreCompact.listenForErrors(node);
     coreServer.choreCompact.setStatusInit(node);
-     coreServer.readConfigOfServerNode(node, nodeConfig);
+    coreServer.readConfigOfServerNode(node, nodeConfig);
 
     const initOPCUATimer = setTimeout(() => {
       coreServer.detailLog("pending node " + node.id);
       coreServer.choreCompact.setStatusPending(node);
 
-      let opcuaServerOptions = coreServer.defaultServerOptions();
+      let opcuaServerOptions = coreServer.defaultServerOptions(node);
       opcuaServerOptions.nodeset_filename = coreServer.loadOPCUANodeSets(
         node,
         __dirname
       );
-      opcuaServerOptions.port = node.port;
-
       node.contribOPCUACompact = {};
       node.contribOPCUACompact.initialized = false;
 

@@ -6,7 +6,7 @@
   <h2>OPC UA Compact Server</h2>
 
   <p>The Compact Server node is an OPC UA server with a programmable address space to build your own information model.
-  The address space is to expand with JS source code based on node-opcua API.</p>
+  The address space is to expand with JS source code based on node-opcua API and OPC UA specification.</p>
 
   <p>Default enpoint: opc.tcp://localhost:54840</p>
   <p>Named enpoint: opc.tcp://localhost:54840/UA/NodeRED/Compact</p>
@@ -91,25 +91,43 @@
       maxNodesPerRead: {
         value: 1000,
         validate: function(v) {
-          return v === "" || (RED.validators.number(v) && v > 0 && v <= 100000);
+          return (
+            v === "" || (RED.validators.number(v) && v >= 0 && v <= 100000)
+          );
         }
       },
       maxNodesPerWrite: {
         value: 1000,
         validate: function(v) {
-          return v === "" || (RED.validators.number(v) && v > 0 && v <= 100000);
+          return (
+            v === "" || (RED.validators.number(v) && v >= 0 && v <= 100000)
+          );
         }
       },
       maxNodesPerHistoryReadData: {
         value: 100,
         validate: function(v) {
-          return v === "" || (RED.validators.number(v) && v > 0 && v <= 10000);
+          return v === "" || (RED.validators.number(v) && v >= 0 && v <= 10000);
         }
       },
       maxNodesPerBrowse: {
         value: 3000,
         validate: function(v) {
-          return v === "" || (RED.validators.number(v) && v > 0 && v <= 200000);
+          return (
+            v === "" || (RED.validators.number(v) && v >= 0 && v <= 200000)
+          );
+        }
+      },
+      maxBrowseContinuationPoints: {
+        value: 10,
+        validate: function(v) {
+          return v === "" || (RED.validators.number(v) && v >= 0 && v <= 100);
+        }
+      },
+      maxHistoryContinuationPoints: {
+        value: 10,
+        validate: function(v) {
+          return v === "" || (RED.validators.number(v) && v >= 0 && v <= 100);
         }
       },
       delayToInit: {
@@ -138,7 +156,7 @@
       },
       addressSpaceScript: {
         value:
-          "function constructAlarmAddressSpace(server, addressSpace, eventObjects, done) {\n  // server = the created node-opcua server\n  // addressSpace = address space of the node-opcua server\n  // eventObjects = add event variables here to hold them in memory from this script\n\n  // internal sandbox objects are:\n  // node = the compact server node,\n  // coreServer = core compact server object for debug and access to NodeOPCUA\n  // this.sandboxNodeContext = node context node-red\n  // this.sandboxFlowContext = flow context node-red\n  // this.sandboxGlobalContext = global context node-red\n  // this.sandboxEnv = env variables\n  // timeout and interval functions as expected from nodejs\n\n  const opcua = coreServer.choreCompact.opcua;\n  const rootFolder = addressSpace.findNode(\"RootFolder\");\n  const namespace = addressSpace.getOwnNamespace();\n\n  // your code here\n        \n  done();\n}\n"
+          'function constructAlarmAddressSpace(server, addressSpace, eventObjects, done) {\n  // server = the created node-opcua server\n  // addressSpace = address space of the node-opcua server\n  // eventObjects = add event variables here to hold them in memory from this script\n\n  // internal sandbox objects are:\n  // node = the compact server node,\n  // coreServer = core compact server object for debug and access to NodeOPCUA\n  // this.sandboxNodeContext = node context node-red\n  // this.sandboxFlowContext = flow context node-red\n  // this.sandboxGlobalContext = global context node-red\n  // this.sandboxEnv = env variables\n  // timeout and interval functions as expected from nodejs\n\n  const opcua = coreServer.choreCompact.opcua;\n  const rootFolder = addressSpace.findNode("RootFolder");\n  const namespace = addressSpace.getOwnNamespace();\n\n  // your code here\n        \n  done();\n}\n'
       }
     },
     inputs: 0,
@@ -646,6 +664,14 @@
           <div class="form-row">
               <label for="node-input-maxNodesPerBrowse"><i class="icon-list"></i> <span data-i18n="opcua-compact-contrib.label.maxNodesPerBrowse"></span></label>
               <input type="text" id="node-input-maxNodesPerBrowse" placeholder="3000" style="width:80px">
+          </div>
+          <div class="form-row">
+              <label for="node-input-maxBrowseContinuationPoints"><i class="icon-list"></i> <span data-i18n="opcua-compact-contrib.label.maxBrowseContinuationPoints"></span></label>
+              <input type="text" id="node-input-maxBrowseContinuationPoints" placeholder="10" style="width:80px">
+          </div>
+          <div class="form-row">
+              <label for="node-input-maxHistoryContinuationPoints"><i class="icon-list"></i> <span data-i18n="opcua-compact-contrib.label.maxHistoryContinuationPoints"></span></label>
+              <input type="text" id="node-input-maxHistoryContinuationPoints" placeholder="10" style="width:80px">
           </div>
       </div>
       <div id="compact-server-tab-security" style="display:none">
