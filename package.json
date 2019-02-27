@@ -1,6 +1,6 @@
 {
   "name": "node-red-contrib-opcua-server",
-  "version": "0.2.5",
+  "version": "0.3.0-alpha.0",
   "description": "Node-RED contribution nodes with next generation OPC UA in a compact and less dependencies package.",
   "author": "Bianco Royal <developers@bianco-royal.de>",
   "repository": {
@@ -32,7 +32,9 @@
     "postinstall": "node ./create_certificates.js demo --dev -s -r ./certificates",
     "test": "jest",
     "test:coverage": "jest --coverage",
-    "release": "standard-version -a",
+    "release": "standard-version",
+    "release:auto": "npm run release -a",
+    "release:alpha": "npm run release -- --prerelease alpha",
     "inspect": "jsinspect ./src > .jsinspect-results.json",
     "rewrite-changelog": "conventional-changelog -p angular -i CHANGELOG.md -s -r 0",
     "clean:install": "./clean.sh"

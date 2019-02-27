@@ -1,10 +1,10 @@
 # node-red-contrib-opcua-server
-A programmable OPC UA server for Node-RED based on node-opcua 2.x next generation version with less dependencies.
+A programmable OPC UA server for Node-RED based on node-opcua next generation version with less dependencies.
 
 Core
 -------
 
-next generation node-opcua version 2.x from [Etienne Rossignon](https://github.com/erossignon/)
+using next generation node-opcua version from [Etienne Rossignon](https://github.com/erossignon/)
 
 Install
 -------
