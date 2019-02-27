@@ -40,6 +40,8 @@
       "maxNodesPerHistoryReadData": "Max per History-Read",
       "maxNodesPerWrite": "Max per Write",
       "maxNodesPerBrowse": "Max per Browse",
+      "maxBrowseContinuationPoints": "Max Parallel Browse Services",
+      "maxHistoryContinuationPoints": "Max Parallel History Reads",
       "registerServerMethod": "Register Server Method",
       "discoveryServerEndpointUrl": "Endpoint Url",
       "capabilitiesForMDNS": "MDNS capabilities",
