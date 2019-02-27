@@ -19,9 +19,10 @@ module.exports = function(RED) {
     coreServer.detailLog("create node " + node.id);
     coreServer.choreCompact.listenForErrors(node);
     coreServer.choreCompact.setStatusInit(node);
-    coreServer.readConfigOfServerNode(node, nodeConfig);
+     coreServer.readConfigOfServerNode(node, nodeConfig);
 
     const initOPCUATimer = setTimeout(() => {
+      coreServer.detailLog("pending node " + node.id);
       coreServer.choreCompact.setStatusPending(node);
 
       let opcuaServerOptions = coreServer.defaultServerOptions();
@@ -83,6 +84,7 @@ module.exports = function(RED) {
           clearInterval(node.outstandingIntervals.pop());
         }
       }
+      coreServer.detailLog("closed node " + node.id);
       done();
     }
 
@@ -95,7 +97,6 @@ module.exports = function(RED) {
         coreServer.stop(node, opcuaServer, () => {
           setTimeout(() => {
             coreServer.choreCompact.setStatusClosed(node);
-            coreServer.detailLog("close node " + node.id);
             cleanSandboxTimer(node, done);
           }, node.delayToClose);
         });

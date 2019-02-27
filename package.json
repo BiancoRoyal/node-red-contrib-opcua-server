@@ -22,7 +22,7 @@
   "dependencies": {
     "better-assert": "1.0.2",
     "debug": "4.1.1",
-    "node-opcua": "0.5.8",
+    "node-opcua": "next",
     "node-opcua-pki": "1.0.3",
     "node-opcua-isa95": "0.0.5",
     "source-map-support": "0.5.10",
@@ -34,7 +34,8 @@
     "test:coverage": "jest --coverage",
     "release": "standard-version -a",
     "inspect": "jsinspect ./src > .jsinspect-results.json",
-    "rewrite-changelog": "conventional-changelog -p angular -i CHANGELOG.md -s -r 0"
+    "rewrite-changelog": "conventional-changelog -p angular -i CHANGELOG.md -s -r 0",
+    "clean:install": "./clean.sh"
   },
   "engines": {
     "node": ">=10"
