@@ -1,6 +1,6 @@
 {
   "name": "node-red-contrib-opcua-server",
-  "version": "0.2.5",
+  "version": "0.2.6",
   "description": "Node-RED contribution nodes with next generation OPC UA in a compact and less dependencies package.",
   "author": "Bianco Royal <developers@bianco-royal.de>",
   "repository": {

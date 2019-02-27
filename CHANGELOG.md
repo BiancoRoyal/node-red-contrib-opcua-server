@@ -1,3 +1,11 @@
+# Change Log
+
+All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
+
+## [0.2.6](https://github.com/BiancoRoyal/node-red-contrib-opcua-server/compare/v0.2.5...v0.2.6) (2019-02-27)
+
+
+
 ## [0.2.5](https://github.com/BiancoRoyal/node-red-contrib-opcua-server/compare/4091b60...v0.2.5) (2019-02-26)
 
 
@@ -11,6 +19,3 @@
 ### Features
 
 * **server:** add the wohle server from compact development ([4091b60](https://github.com/BiancoRoyal/node-red-contrib-opcua-server/commit/4091b60))
-
-
-
