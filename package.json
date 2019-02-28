@@ -1,6 +1,6 @@
 {
   "name": "node-red-contrib-opcua-server",
-  "version": "0.3.0-alpha.1",
+  "version": "0.3.0-alpha.2",
   "description": "Node-RED contribution nodes with next generation OPC UA in a compact and less dependencies package.",
   "author": "Bianco Royal <developers@bianco-royal.de>",
   "repository": {
@@ -36,7 +36,7 @@
     "coverage:ci": "npm run check:formatter && jest --coverage --verbose --detectOpenHandles --forceExit --logHeapUsage --ci --debug",
     "coverage:upload": "cat ./jcoverage/lcov.info | codacy-coverage --token 1aa4f8d6feaf4e4e8ffb7f27a12b1116",
     "release": "npm run clean:formatter && standard-version",
-    "release:auto": "npm run clean:formatter && npm run release -a",
+    "release:auto": "npm run clean:formatter && npm run release",
     "release:alpha": "npm run clean:formatter && npm run release -- --prerelease alpha",
     "inspect": "jsinspect ./src > .jsinspect-results.json",
     "rewrite-changelog": "conventional-changelog -p angular -i CHANGELOG.md -s -r 0",
@@ -111,7 +111,10 @@
   "remarkConfig": {
     "plugins": [
       "remark-preset-lint-recommended",
-      ["remark-lint-list-item-indent", false]
+      [
+        "remark-lint-list-item-indent",
+        false
+      ]
     ]
   },
   "browserslist": "> 0.25%, not dead",
