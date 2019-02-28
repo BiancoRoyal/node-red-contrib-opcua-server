@@ -6,18 +6,17 @@ matrix:
   allow_failures:
     - node_js: 11
 install:
-  - npm install
-  - npm install -g gulp
-  - npm install -g gulp-cli
-  - npm install -g jest
+  - npm install --dev
 script:
   - npm run coverage:ci
+  - npm run coverage:upload
 cache:
   directories:
     - "node_modules"
     - "pki"
+    - "certificates"
 branches:
   only:
   - master
-  - develop
+  - next
   - LTS
