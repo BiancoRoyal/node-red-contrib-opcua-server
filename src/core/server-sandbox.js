@@ -17,13 +17,13 @@ module.exports = {
       node,
       coreServer,
       sandboxNodeContext: {
-        set: function() {
+        set: () => {
           node.context().set.apply(node, arguments);
         },
-        get: function() {
+        get: () => {
           return node.context().get.apply(node, arguments);
         },
-        keys: function() {
+        keys: () => {
           return node.context().keys.apply(node, arguments);
         },
         get global() {
@@ -34,24 +34,24 @@ module.exports = {
         }
       },
       sandboxFlowContext: {
-        set: function() {
+        set: () => {
           node.context().flow.set.apply(node, arguments);
         },
-        get: function() {
+        get: () => {
           return node.context().flow.get.apply(node, arguments);
         },
-        keys: function() {
+        keys: () => {
           return node.context().flow.keys.apply(node, arguments);
         }
       },
       sandboxGlobalContext: {
-        set: function() {
+        set: () => {
           node.context().global.set.apply(node, arguments);
         },
-        get: function() {
+        get: () => {
           return node.context().global.get.apply(node, arguments);
         },
-        keys: function() {
+        keys: () => {
           return node.context().global.keys.apply(node, arguments);
         }
       },
@@ -61,10 +61,10 @@ module.exports = {
           return flow.getSetting(envVar);
         }
       },
-      setTimeout: function() {
+      setTimeout: () => {
         let func = arguments[0];
         let timerId;
-        arguments[0] = function() {
+        arguments[0] = () => {
           sandbox.clearTimeout(timerId);
           try {
             func.apply(this, arguments);
@@ -83,10 +83,10 @@ module.exports = {
           node.outstandingTimers.splice(index, 1);
         }
       },
-      setInterval: function() {
+      setInterval: () => {
         let func = arguments[0];
         let timerId;
-        arguments[0] = function() {
+        arguments[0] = () => {
           try {
             func.apply(this, arguments);
           } catch (err) {
@@ -97,7 +97,7 @@ module.exports = {
         node.outstandingIntervals.push(timerId);
         return timerId;
       },
-      clearInterval: function(id) {
+      clearInterval: id => {
         clearInterval(id);
         let index = node.outstandingIntervals.indexOf(id);
         if (index > -1) {

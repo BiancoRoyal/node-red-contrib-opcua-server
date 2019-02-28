@@ -23,8 +23,8 @@
     "better-assert": "1.0.2",
     "debug": "4.1.1",
     "node-opcua": "next",
-    "node-opcua-pki": "1.0.3",
     "node-opcua-isa95": "0.0.5",
+    "node-opcua-pki": "1.0.3",
     "source-map-support": "0.5.10",
     "vm2": "3.6.10"
   },
@@ -37,7 +37,8 @@
     "release:alpha": "npm run release -- --prerelease alpha",
     "inspect": "jsinspect ./src > .jsinspect-results.json",
     "rewrite-changelog": "conventional-changelog -p angular -i CHANGELOG.md -s -r 0",
-    "clean:install": "./clean.sh"
+    "clean:install": "./clean.sh",
+    "lint:md": "remark ."
   },
   "engines": {
     "node": ">=10"
@@ -77,8 +78,11 @@
     "jsdoc": "^3.5.5",
     "node-red": "^0.19.6",
     "node-red-node-test-helper": "^0.1.8",
-    "pump": "^3.0.0",
     "prettier": "^1.16.4",
+    "pump": "^3.0.0",
+    "remark-cli": "^6.0.1",
+    "remark-lint": "^6.0.4",
+    "remark-preset-lint-recommended": "^3.0.2",
     "standard-version": "^5.0.0",
     "tslib": "^1.9.3",
     "uglify-js": "^3.4.9",
@@ -98,6 +102,12 @@
       "docs",
       "src/public/",
       "test"
+    ]
+  },
+  "remarkConfig": {
+    "plugins": [
+      "remark-preset-lint-recommended",
+      ["remark-lint-list-item-indent", false]
     ]
   },
   "browserslist": "> 0.25%, not dead",
