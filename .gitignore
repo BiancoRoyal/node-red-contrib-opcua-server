@@ -68,3 +68,5 @@ docs/
 opcuaCompact/
 
 \.jsinspect-results\.json
+
+\.DS_Store
