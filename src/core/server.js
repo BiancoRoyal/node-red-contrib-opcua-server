@@ -112,6 +112,8 @@ module.exports = {
       node.privateCertificateFile ||
       module.exports.choreCompact.coreSecurity.serverKeyFile("2048");
 
+    const SecurityPolicy = require("node-opcua").SecurityPolicy;
+
     return {
       port: node.port,
       nodeset_filename:
@@ -144,6 +146,11 @@ module.exports = {
       maxAllowedSessionNumber: node.maxAllowedSessionNumber,
       maxConnectionsPerEndpoint: node.maxConnectionsPerEndpoint,
       allowAnonymous: node.allowAnonymous,
+      /* securityPolicies: [ TODO: configure SecurityPolicies
+        SecurityPolicy.Basic128Rsa15,
+        SecurityPolicy.Basic256,
+        SecurityPolicy.Basic256Sha256
+      ], */
       certificateFile,
       privateKeyFile,
       userManager: {
