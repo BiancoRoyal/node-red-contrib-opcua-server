@@ -2,6 +2,6 @@
 
 gulp publish
 
-npm test:coverage
+npm run test:coverage
 
 npm publish --tag next
