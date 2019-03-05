@@ -160,7 +160,7 @@ module.exports = {
       },
       isAuditing: node.isAuditing,
       disableDiscovery: node.disableDiscovery,
-      registerServerMethod: node.registerServerMethod,
+      registerServerMethod: node.registerServerMethod
     };
   },
   constructAddressSpaceFromScript: (
