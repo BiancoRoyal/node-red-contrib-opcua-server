@@ -2,6 +2,20 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+# [0.4.0-alpha.0](https://github.com/BiancoRoyal/node-red-contrib-opcua-server/compare/v0.3.1-alpha.0...v0.4.0-alpha.0) (2019-03-05)
+
+
+### Bug Fixes
+
+* **server:** HTML key inputs to short ([c71061c](https://github.com/BiancoRoyal/node-red-contrib-opcua-server/commit/c71061c))
+
+
+### Features
+
+* new product uri access ([56f4617](https://github.com/BiancoRoyal/node-red-contrib-opcua-server/commit/56f4617))
+
+
+
 ## [0.3.1-alpha.0](https://github.com/BiancoRoyal/node-red-contrib-opcua-server/compare/v0.3.0...v0.3.1-alpha.0) (2019-02-28)
 
 
