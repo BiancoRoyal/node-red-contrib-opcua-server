@@ -8,6 +8,8 @@
   <p>The Compact Server node is an OPC UA server with a programmable address space to build your own information model.
   The address space is to expand with JS source code based on node-opcua API and OPC UA specification.</p>
 
+  The product URI have to be unique if you set some other name as the default is! (default: NodeOPCUA-Server-(port))
+
   <p>Default enpoint: opc.tcp://localhost:54840</p>
   <p>Named enpoint: opc.tcp://localhost:54840/UA/NodeRED/Compact</p>
   <p>Default discovery: opc.tcp://localhost:4840/UADiscovery</p>
@@ -54,6 +56,7 @@
         }
       },
       endpoint: { value: "" },
+      productUri: { value: "" },
       acceptExternalCommands: { value: true },
       maxAllowedSessionNumber: {
         value: 10,
@@ -597,6 +600,10 @@
           <div class="form-row">
               <label for="node-input-endpoint"><i class="icon-tasks"></i> <span data-i18n="opcua-compact-contrib.label.endpoint"></span></label>
               <input type="text" id="node-input-endpoint" placeholder="UA/NodeRED/Compact">
+          </div>
+          <div class="form-row">
+              <label for="node-input-productUri"><i class="icon-tasks"></i> <span data-i18n="opcua-compact-contrib.label.productUri"></span></label>
+              <input type="text" id="node-input-productUri" placeholder="NodeOPCUA-Server-(port)">
           </div>
           <div class="form-row">
               <label for="node-input-alternateHostname"><i class="fa fa-server"></i> <span data-i18n="opcua-compact-contrib.label.alternateHostname"></span></label>

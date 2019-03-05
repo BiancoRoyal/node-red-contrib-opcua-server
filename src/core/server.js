@@ -1,6 +1,7 @@
 /**
  MIT License
  Copyright (c) 2018,2019 Bianco Royal Software Innovations® (https://bianco-royal.cloud/)
+ Copyright (c) 2019 Sterfive (https://www.sterfive.com/)
  **/
 "use strict";
 module.exports = {
@@ -14,6 +15,7 @@ module.exports = {
     // network
     node.port = config.port;
     node.endpoint = config.endpoint;
+    node.productUri = config.productUri;
     node.alternateHostname = config.alternateHostname;
 
     // limits
@@ -102,7 +104,7 @@ module.exports = {
   defaultServerOptions: node => {
     const applicationUri = module.exports.choreCompact.opcua.makeApplicationUrn(
       module.exports.choreCompact.opcua.get_fully_qualified_domain_name(),
-      "NodeOPCUA-Server"
+      node.productUri || "NodeOPCUA-Server-" + node.port
     );
 
     const certificateFile =
@@ -136,7 +138,7 @@ module.exports = {
       },
       serverInfo: {
         applicationUri,
-        productUri: "NodeOPCUA-Server",
+        productUri: node.productUri || "NodeOPCUA-Server-" + node.port,
         applicationName: { text: "NodeRED-Compact", locale: "en" },
         gatewayServerUri: null,
         discoveryProfileUri: null,
@@ -157,7 +159,8 @@ module.exports = {
         isValidUser: module.exports.choreCompact.coreSecurity.checkUserLogon
       },
       isAuditing: node.isAuditing,
-      disableDiscovery: node.disableDiscovery
+      disableDiscovery: node.disableDiscovery,
+      registerServerMethod: node.registerServerMethod,
     };
   },
   constructAddressSpaceFromScript: (

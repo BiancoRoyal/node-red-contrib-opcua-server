@@ -14,7 +14,8 @@
   "opcua-compact-contrib": {
     "label": {
       "port": "Port",
-      "endpoint": "Endpoint",
+      "endpoint": "Resource Path",
+      "productUri": "Product URI",
       "showActivities": "Show Activities",
       "showErrors": "Show Errors",
       "stateLogEnabled": "Log State",
