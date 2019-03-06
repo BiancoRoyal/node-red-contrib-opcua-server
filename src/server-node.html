@@ -38,7 +38,8 @@
   <p>A function like programming editor to construct your own address space in the server.</p>
 
   <h3>Discovery</h3>
-  <p>That gives you access to the servers discovery node-opcua parameters.</p>
+  <p>That gives you access to the servers discovery node-opcua parameters.
+  Be sure to have a LDS running if you set LDS instead of HIDDEN.</p>
 
   <p>Set showErrors to get errors from node-opcua on browse.</p>
 </script>
@@ -88,7 +89,7 @@
       xmlsetsOPCUA: { value: [] },
       publicCertificateFile: { value: "" },
       privateCertificateFile: { value: "" },
-      registerServerMethod: { value: 3 },
+      registerServerMethod: { value: 1 },
       discoveryServerEndpointUrl: { value: "" },
       capabilitiesForMDNS: { value: "" },
       maxNodesPerRead: {
