@@ -66,6 +66,10 @@ module.exports = {
   stop: (node, server, done) => {
     server.shutdown(node.serverShutdownTimeout, done);
   },
+  getRegisterServerMethod: (id) => {
+    const RegisterServerMethod = require("node-opcua").RegisterServerMethod;
+    return RegisterServerMethod[id];
+  },
   loadOPCUANodeSets: (node, dirname) => {
     let standardNodeSetFile =
       module.exports.choreCompact.opcuaNodesets.standard_nodeset_file;
@@ -115,6 +119,7 @@ module.exports = {
       module.exports.choreCompact.coreSecurity.serverKeyFile("2048");
 
     const SecurityPolicy = require("node-opcua").SecurityPolicy;
+    const registerServerMethod = module.exports.getRegisterServerMethod(node.registerServerMethod);
 
     return {
       port: node.port,
@@ -160,7 +165,7 @@ module.exports = {
       },
       isAuditing: node.isAuditing,
       disableDiscovery: node.disableDiscovery,
-      registerServerMethod: node.registerServerMethod
+      registerServerMethod
     };
   },
   constructAddressSpaceFromScript: (
