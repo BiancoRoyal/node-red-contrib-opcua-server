@@ -2,6 +2,15 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [0.4.1-alpha.1](https://github.com/BiancoRoyal/node-red-contrib-opcua-server/compare/v0.4.0-alpha.0...v0.4.1-alpha.1) (2019-03-08)
+
+
+### Bug Fixes
+
+* set back to HIDDEN default in discovery because of crashing LDS without a running LDS  ([7e7377e](https://github.com/BiancoRoyal/node-red-contrib-opcua-server/commit/7e7377e))
+
+
+
 # [0.4.0-alpha.0](https://github.com/BiancoRoyal/node-red-contrib-opcua-server/compare/v0.3.1-alpha.0...v0.4.0-alpha.0) (2019-03-05)
 
 
