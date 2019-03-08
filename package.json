@@ -1,7 +1,6 @@
 {
   "name": "node-red-contrib-opcua-server",
-  "version": "0.4.0-alpha.0",
-  "tag": "next",
+  "version": "0.4.0",
   "description": "Node-RED contribution nodes with next generation OPC UA in a compact and less dependencies package.",
   "author": "Bianco Royal <developers@bianco-royal.de>",
   "repository": {
@@ -23,7 +22,7 @@
   "dependencies": {
     "better-assert": "1.0.2",
     "debug": "4.1.1",
-    "node-opcua": "next",
+    "node-opcua": "latest",
     "node-opcua-isa95": "0.0.5",
     "node-opcua-pki": "1.0.3",
     "source-map-support": "0.5.10",
@@ -32,6 +31,7 @@
   "scripts": {
     "postinstall": "node ./create_certificates.js demo --dev -s -r ./certificates",
     "test": "jest",
+    "test:clearCache": "jest --clearCache",
     "test:coverage": "jest --coverage",
     "check:formatter": "prettier --check \"src/**/*.js\" && prettier --check \"test/**/*.js\"",
     "coverage:ci": "npm run check:formatter && jest --coverage --verbose --detectOpenHandles --forceExit --logHeapUsage --ci --debug",
@@ -78,7 +78,7 @@
     "gulp-sequence": "^1.0.0",
     "gulp-sourcemaps": "^2.6.5",
     "gulp-uglify": "^3.0.1",
-    "jest": "^24.1.0",
+    "jest": "^24.3.1",
     "jsdoc": "^3.5.5",
     "node-red": "^0.19.6",
     "node-red-node-test-helper": "^0.1.8",
