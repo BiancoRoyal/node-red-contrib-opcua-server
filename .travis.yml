@@ -6,7 +6,8 @@ matrix:
   allow_failures:
     - node_js: 11
 install:
-  - npm install --dev
+  - npm install
+  - npm install --only=dev
 script:
   - npm run coverage:ci
   - npm run coverage:upload
