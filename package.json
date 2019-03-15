@@ -23,7 +23,7 @@
   "dependencies": {
     "better-assert": "1.0.2",
     "debug": "4.1.1",
-    "node-opcua": "latest",
+    "node-opcua": "next",
     "node-opcua-isa95": "0.0.5",
     "node-opcua-pki": "1.0.3",
     "source-map-support": "0.5.10",
