@@ -5,6 +5,8 @@ rm package-lock.json
 
 rm -rf certificates/
 
+npm cache verify
+
 npm i
 
 gulp publish
