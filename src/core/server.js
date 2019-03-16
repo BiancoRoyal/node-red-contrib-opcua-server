@@ -66,7 +66,7 @@ module.exports = {
   stop: (node, server, done) => {
     server.shutdown(node.serverShutdownTimeout, done);
   },
-  getRegisterServerMethod: (id) => {
+  getRegisterServerMethod: id => {
     const RegisterServerMethod = require("node-opcua").RegisterServerMethod;
     return RegisterServerMethod[id];
   },
@@ -119,7 +119,9 @@ module.exports = {
       module.exports.choreCompact.coreSecurity.serverKeyFile("2048");
 
     const SecurityPolicy = require("node-opcua").SecurityPolicy;
-    const registerServerMethod = module.exports.getRegisterServerMethod(node.registerServerMethod);
+    const registerServerMethod = module.exports.getRegisterServerMethod(
+      node.registerServerMethod
+    );
 
     return {
       port: node.port,
