@@ -68,7 +68,14 @@ module.exports = {
   },
   getRegisterServerMethod: id => {
     const RegisterServerMethod = require("node-opcua").RegisterServerMethod;
-    return RegisterServerMethod[id];
+    switch (parseInt(id)) {
+      case 3:
+        return RegisterServerMethod.LDS;
+      case 2:
+        return RegisterServerMethod.MDNS;
+      default:
+        return RegisterServerMethod.HIDDEN;
+    }
   },
   loadOPCUANodeSets: (node, dirname) => {
     let standardNodeSetFile =
@@ -88,13 +95,6 @@ module.exports = {
           } else {
             /* istanbul ignore next */
             xmlFiles.push(xmlsetFileName.path);
-          }
-
-          /* istanbul ignore next */
-          if (xmlsetFileName.path.includes("ISA95")) {
-            // add server ISA95 extension to node-opcua
-            module.exports.debugLog("installing ISA95 extend");
-            // require("node-opcua-isa95")(module.exports.choreCompact.opcua);
           }
         }
       });
@@ -118,7 +118,7 @@ module.exports = {
       node.privateCertificateFile ||
       module.exports.choreCompact.coreSecurity.serverKeyFile("2048");
 
-    const SecurityPolicy = require("node-opcua").SecurityPolicy;
+    // const SecurityPolicy = require("node-opcua").SecurityPolicy;
     const registerServerMethod = module.exports.getRegisterServerMethod(
       node.registerServerMethod
     );
@@ -130,8 +130,8 @@ module.exports = {
       resourcePath: node.endpoint || "UA/NodeRED/Compact",
       buildInfo: {
         productName: "Node-RED OPC UA Compact Server",
-        buildNumber: "20190228",
-        buildDate: new Date(2019, 2, 28)
+        buildNumber: "20190316",
+        buildDate: new Date(2019, 3, 16)
       },
       serverCapabilities: {
         maxBrowseContinuationPoints: node.maxBrowseContinuationPoints,
