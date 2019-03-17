@@ -2,6 +2,16 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [0.4.1](https://github.com/BiancoRoyal/node-red-contrib-opcua-server/compare/v0.4.0...v0.4.1) (2019-03-17)
+
+
+### Bug Fixes
+
+* prettier style for travis ([38ed92f](https://github.com/BiancoRoyal/node-red-contrib-opcua-server/commit/38ed92f))
+* travis npm ([d67f905](https://github.com/BiancoRoyal/node-red-contrib-opcua-server/commit/d67f905))
+
+
+
 # [0.4.0](https://github.com/BiancoRoyal/node-red-contrib-opcua-server/compare/v0.4.0-alpha.0...v0.4.0) (2019-03-06)
 
 
