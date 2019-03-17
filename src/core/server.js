@@ -89,13 +89,6 @@ module.exports = {
             /* istanbul ignore next */
             xmlFiles.push(xmlsetFileName.path);
           }
-
-          /* istanbul ignore next */
-          if (xmlsetFileName.path.includes("ISA95")) {
-            // add server ISA95 extension to node-opcua
-            module.exports.debugLog("installing ISA95 extend");
-            // require("node-opcua-isa95")(module.exports.choreCompact.opcua);
-          }
         }
       });
       module.exports.detailLog("appending xmlFiles: " + xmlFiles.toString());
@@ -118,7 +111,7 @@ module.exports = {
       node.privateCertificateFile ||
       module.exports.choreCompact.coreSecurity.serverKeyFile("2048");
 
-    const SecurityPolicy = require("node-opcua").SecurityPolicy;
+    // const SecurityPolicy = require("node-opcua").SecurityPolicy;
     const registerServerMethod = module.exports.getRegisterServerMethod(
       node.registerServerMethod
     );
