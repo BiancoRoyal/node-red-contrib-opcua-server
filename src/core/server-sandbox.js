@@ -4,9 +4,9 @@
  **/
 "use strict";
 module.exports = {
-  choreCompact: require("./chore").de.bianco.royal.compact,
-  debugLog: require("./chore").de.bianco.royal.compact.opcuaSandboxDebug,
-  errorLog: require("./chore").de.bianco.royal.compact.opcuaErrorDebug,
+  choreCompactServer: require("./chore").de.biancoroyal.compact.server,
+  debugLog: require("./chore").de.biancoroyal.compact.server.opcuaSandboxDebug,
+  errorLog: require("./chore").de.biancoroyal.compact.server.opcuaErrorDebug,
   initialize: (node, coreServer, done) => {
     const { VM } = require("vm2");
     node.outstandingTimers = [];

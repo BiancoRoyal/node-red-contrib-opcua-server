@@ -5,10 +5,11 @@
  **/
 "use strict";
 module.exports = {
-  choreCompact: require("./chore").de.bianco.royal.compact,
-  debugLog: require("./chore").de.bianco.royal.compact.opcuaServerDebug,
-  detailLog: require("./chore").de.bianco.royal.compact.opcuaServerDetailsDebug,
-  errorLog: require("./chore").de.bianco.royal.compact.opcuaErrorDebug,
+  choreCompactServer: require("./chore").de.biancoroyal.compact.server,
+  debugLog: require("./chore").de.biancoroyal.compact.server.opcuaServerDebug,
+  detailLog: require("./chore").de.biancoroyal.compact.server
+    .opcuaServerDetailsDebug,
+  errorLog: require("./chore").de.biancoroyal.compact.server.opcuaErrorDebug,
   readConfigOfServerNode: (node, config) => {
     node.name = config.name;
 
@@ -61,7 +62,7 @@ module.exports = {
     return node;
   },
   initialize: (node, options) => {
-    return new module.exports.choreCompact.opcua.OPCUAServer(options);
+    return new module.exports.choreCompactServer.opcua.OPCUAServer(options);
   },
   stop: (node, server, done) => {
     server.shutdown(node.serverShutdownTimeout, done);
@@ -79,7 +80,7 @@ module.exports = {
   },
   loadOPCUANodeSets: (node, dirname) => {
     let standardNodeSetFile =
-      module.exports.choreCompact.opcuaNodesets.standard_nodeset_file;
+      module.exports.choreCompactServer.opcua.nodesets.standard_nodeset_file;
     let xmlFiles = [standardNodeSetFile];
 
     if (Array.isArray(node.xmlsetsOPCUA)) {
@@ -87,7 +88,7 @@ module.exports = {
         if (xmlsetFileName.path) {
           if (xmlsetFileName.path.startsWith("public/vendor/")) {
             xmlFiles.push(
-              module.exports.choreCompact.path.join(
+              module.exports.choreCompactServer.path.join(
                 dirname,
                 xmlsetFileName.path
               )
@@ -106,17 +107,19 @@ module.exports = {
     return xmlFiles;
   },
   defaultServerOptions: node => {
-    const applicationUri = module.exports.choreCompact.opcua.makeApplicationUrn(
-      module.exports.choreCompact.opcua.get_fully_qualified_domain_name(),
+    const applicationUri = module.exports.choreCompactServer.opcua.makeApplicationUrn(
+      "%FQDN%",
       node.productUri || "NodeOPCUA-Server-" + node.port
     );
 
     const certificateFile =
       node.publicCertificateFile ||
-      module.exports.choreCompact.coreSecurity.serverCertificateFile("2048");
+      module.exports.choreCompactServer.coreSecurity.serverCertificateFile(
+        "2048"
+      );
     const privateKeyFile =
       node.privateCertificateFile ||
-      module.exports.choreCompact.coreSecurity.serverKeyFile("2048");
+      module.exports.choreCompactServer.coreSecurity.serverKeyFile("2048");
 
     // const SecurityPolicy = require("node-opcua").SecurityPolicy;
     const registerServerMethod = module.exports.getRegisterServerMethod(
@@ -126,12 +129,12 @@ module.exports = {
     return {
       port: node.port,
       nodeset_filename:
-        module.exports.choreCompact.opcuaNodesets.standard_nodeset_file,
-      resourcePath: node.endpoint || "UA/NodeRED/Compact",
+        module.exports.choreCompactServer.opcuaNodesets.standard_nodeset_file,
+      resourcePath: node.endpoint || "/UA/NodeRED/Compact",
       buildInfo: {
         productName: "Node-RED OPC UA Compact Server",
-        buildNumber: "20190316",
-        buildDate: new Date(2019, 3, 16)
+        buildNumber: "20190810",
+        buildDate: new Date(2019, 8, 10)
       },
       serverCapabilities: {
         maxBrowseContinuationPoints: node.maxBrowseContinuationPoints,
@@ -163,7 +166,8 @@ module.exports = {
       certificateFile,
       privateKeyFile,
       userManager: {
-        isValidUser: module.exports.choreCompact.coreSecurity.checkUserLogon
+        isValidUser:
+          module.exports.choreCompactServer.coreSecurity.checkUserLogon
       },
       isAuditing: node.isAuditing,
       disableDiscovery: node.disableDiscovery,
@@ -201,11 +205,11 @@ module.exports = {
         node.contribOPCUACompact.eventObjects
       )
       .then(() => {
-        module.exports.choreCompact.setStatusActive(node);
+        module.exports.choreCompactServer.setStatusActive(node);
         node.emit("server_running");
       })
       .catch(err => {
-        module.exports.choreCompact.setStatusError(node, err.message);
+        module.exports.choreCompactServer.setStatusError(node, err.message);
         node.emit("server_start_error");
       });
   },

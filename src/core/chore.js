@@ -5,9 +5,9 @@
 "use strict";
 module.exports = {
   de: {
-    bianco: {
-      royal: {
-        compact: {
+    biancoroyal: {
+      compact: {
+        server: {
           path: require("path"),
           betterAssert: require("better-assert"),
           opcuaDebug: require("debug")("opcuaCompact"),
@@ -25,7 +25,7 @@ module.exports = {
           opcuaNodeIcon: "icon.png",
           listenForErrors: node => {
             node.on("error", err => {
-              module.exports.de.bianco.royal.compact.opcuaErrorDebug(err);
+              module.exports.de.biancoroyal.compact.server.opcuaErrorDebug(err);
             });
           },
           setStatusPending: node => {

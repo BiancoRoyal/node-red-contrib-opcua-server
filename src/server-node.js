@@ -17,13 +17,13 @@ module.exports = function(RED) {
     let node = this;
     let opcuaServer;
     coreServer.detailLog("create node " + node.id);
-    coreServer.choreCompact.listenForErrors(node);
-    coreServer.choreCompact.setStatusInit(node);
+    coreServer.choreCompactServer.listenForErrors(node);
+    coreServer.choreCompactServer.setStatusInit(node);
     coreServer.readConfigOfServerNode(node, nodeConfig);
 
     const initOPCUATimer = setTimeout(() => {
       coreServer.detailLog("pending node " + node.id);
-      coreServer.choreCompact.setStatusPending(node);
+      coreServer.choreCompactServer.setStatusPending(node);
 
       let opcuaServerOptions = coreServer.defaultServerOptions(node);
       opcuaServerOptions.nodeset_filename = coreServer.loadOPCUANodeSets(
@@ -44,8 +44,22 @@ module.exports = function(RED) {
       };
 
       opcuaServer = coreServer.initialize(node, opcuaServerOptions);
-      opcuaServer.initialize(() => {
+      opcuaServer.on("post_initialize", () => {
         coreServer.postInitialize(node, opcuaServer);
+      });
+      opcuaServer.on("serverRegistered", () => {
+        coreServer.detailLog("server has been registered");
+      });
+      opcuaServer.on("serverUnregistered", () => {
+        coreServer.detailLog("server has been unregistered");
+      });
+      opcuaServer.on("serverRegistrationRenewed", () => {
+        coreServer.detailLog("server registration has been renewed");
+      });
+      opcuaServer.on("serverRegistrationPending", () => {
+        coreServer.detailLog(
+          "server registration is still pending (is Local Discovery Server up and running ?)"
+        );
       });
 
       coreServer
@@ -60,7 +74,7 @@ module.exports = function(RED) {
             node.contribOPCUACompact.initialized = true;
             node.emit("server_node_running");
           });
-          coreServer.choreCompact.setStatusActive(node);
+          coreServer.choreCompactServer.setStatusActive(node);
         })
         .catch(err => {
           /* istanbul ignore next */
@@ -94,7 +108,7 @@ module.exports = function(RED) {
       if (opcuaServer) {
         coreServer.stop(node, opcuaServer, () => {
           setTimeout(() => {
-            coreServer.choreCompact.setStatusClosed(node);
+            coreServer.choreCompactServer.setStatusClosed(node);
             cleanSandboxTimer(node, done);
           }, node.delayToClose);
         });
@@ -114,8 +128,12 @@ module.exports = function(RED) {
     function(req, res) {
       let xmlset = [];
       const coreChore = require("./core/chore");
-      xmlset.push(coreChore.de.bianco.royal.compact.opcua.di_nodeset_filename);
-      xmlset.push(coreChore.de.bianco.royal.compact.opcua.adi_nodeset_filename);
+      xmlset.push(
+        coreChore.de.biancoroyal.compact.server.opcua.di_nodeset_filename
+      );
+      xmlset.push(
+        coreChore.de.biancoroyal.compact.server.opcua.adi_nodeset_filename
+      );
       xmlset.push("public/vendor/opc-foundation/xml/Opc.ISA95.NodeSet2.xml");
       xmlset.push("public/vendor/opc-foundation/xml/Opc.Ua.Adi.NodeSet2.xml");
       xmlset.push("public/vendor/opc-foundation/xml/Opc.Ua.Di.NodeSet2.xml");

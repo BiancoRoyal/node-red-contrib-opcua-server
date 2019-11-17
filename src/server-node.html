@@ -160,7 +160,7 @@
       },
       addressSpaceScript: {
         value:
-          'function constructAlarmAddressSpace(server, addressSpace, eventObjects, done) {\n  // server = the created node-opcua server\n  // addressSpace = address space of the node-opcua server\n  // eventObjects = add event variables here to hold them in memory from this script\n\n  // internal sandbox objects are:\n  // node = the compact server node,\n  // coreServer = core compact server object for debug and access to NodeOPCUA\n  // this.sandboxNodeContext = node context node-red\n  // this.sandboxFlowContext = flow context node-red\n  // this.sandboxGlobalContext = global context node-red\n  // this.sandboxEnv = env variables\n  // timeout and interval functions as expected from nodejs\n\n  const opcua = coreServer.choreCompact.opcua;\n  const rootFolder = addressSpace.findNode("RootFolder");\n  const namespace = addressSpace.getOwnNamespace();\n\n  // your code here\n        \n  done();\n}\n'
+          'function constructAlarmAddressSpace(server, addressSpace, eventObjects, done) {\n  // server = the created node-opcua server\n  // addressSpace = address space of the node-opcua server\n  // eventObjects = add event variables here to hold them in memory from this script\n\n  // internal sandbox objects are:\n  // node = the compact server node,\n  // coreServer = core compact server object for debug and access to NodeOPCUA\n  // this.sandboxNodeContext = node context node-red\n  // this.sandboxFlowContext = flow context node-red\n  // this.sandboxGlobalContext = global context node-red\n  // this.sandboxEnv = env variables\n  // timeout and interval functions as expected from nodejs\n\n  const opcua = coreServer.choreCompactServer.opcua;\n  const rootFolder = addressSpace.findNode("RootFolder");\n  const namespace = addressSpace.getOwnNamespace();\n\n  // your code here\n        \n  done();\n}\n'
       }
     },
     inputs: 0,
@@ -600,7 +600,7 @@
           </div>
           <div class="form-row">
               <label for="node-input-endpoint"><i class="icon-tasks"></i> <span data-i18n="opcua-compact-contrib.label.endpoint"></span></label>
-              <input type="text" id="node-input-endpoint" placeholder="UA/NodeRED/Compact">
+              <input type="text" id="node-input-endpoint" placeholder="/UA/NodeRED/Compact">
           </div>
           <div class="form-row">
               <label for="node-input-productUri"><i class="icon-tasks"></i> <span data-i18n="opcua-compact-contrib.label.productUri"></span></label>
