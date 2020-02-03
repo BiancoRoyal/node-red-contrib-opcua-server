@@ -78,7 +78,7 @@
     "gulp-uglify": "^3.0.1",
     "jest": "^24.3.1",
     "jsdoc": "^3.5.5",
-    "node-red": "^0.19.6",
+    "node-red": "^0.20.8",
     "node-red-node-test-helper": "^0.1.8",
     "prettier": "^1.16.4",
     "pump": "^3.0.0",
