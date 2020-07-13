@@ -85,7 +85,7 @@
     "remark-cli": "^6.0.1",
     "remark-lint": "^6.0.4",
     "remark-preset-lint-recommended": "^3.0.2",
-    "standard-version": "^5.0.0",
+    "standard-version": "^8.0.1",
     "tslib": "^1.9.3",
     "uglify-js": "^3.4.9",
     "uglify-js-harmony": "^2.7.7",
