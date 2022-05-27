@@ -1,6 +1,6 @@
 {
   "name": "node-red-contrib-opcua-server",
-  "version": "0.4.1",
+  "version": "0.5.0",
   "description": "Node-RED contribution nodes with next generation OPC UA in a compact and less dependencies package.",
   "author": "Bianco Royal <developers@bianco-royal.de>",
   "repository": {
@@ -21,10 +21,10 @@
   ],
   "dependencies": {
     "better-assert": "1.0.2",
-    "debug": "4.1.1",
-    "node-opcua": "0.7.0",
-    "source-map-support": "0.5.10",
-    "vm2": "3.6.10"
+    "debug": "4.3.4",
+    "node-opcua": "2.68.1",
+    "source-map-support": "0.5.21",
+    "vm2": "3.9.9"
   },
   "scripts": {
     "postinstall": "node ./create_certificates.js demo --dev -s -r ./certificates",
@@ -40,7 +40,9 @@
     "rewrite-changelog": "conventional-changelog -p angular -i CHANGELOG.md -s -r 0",
     "clean:install": "./clean.sh",
     "clean:formatter": "prettier --write \"src/**/*.js\" && prettier --write \"test/**/*.js\"",
-    "lint:md": "remark ."
+    "lint:md": "remark .",
+    "dev-link": "npm i && npm run build && npm link && cd ~/.node-red && npm link node-red-contrib-opcua-server",
+    "dev-unlink": "npm unlink node-red-contrib-iiot-opcua"
   },
   "engines": {
     "node": ">=10"
@@ -61,35 +63,38 @@
     "modbus"
   ],
   "devDependencies": {
-    "@babel/cli": "^7.2.3",
-    "@babel/core": "^7.3.3",
-    "@babel/preset-env": "^7.3.1",
+    "@babel/cli": "^7.17.10",
+    "@babel/core": "^7.18.2",
+    "@babel/preset-env": "^7.18.2",
+    "@types/debug": "^4.1.7",
+    "@node-red/nodes": "^2.2.2",
     "ci-publish": "^1.3.1",
     "codacy-coverage": "^3.4.0",
-    "conventional-changelog-cli": "^2.0.12",
-    "gulp": "^4.0.0",
+    "conventional-changelog-cli": "^2.2.2",
+    "gulp": "^4.0.2",
     "gulp-babel": "^8.0.0",
     "gulp-clean": "^0.4.0",
     "gulp-htmlmin": "^5.0.1",
-    "gulp-jsdoc3": "^2.0.0",
-    "gulp-replace": "^1.0.0",
+    "gulp-jsdoc3": "^3.0.0",
+    "gulp-replace": "^1.1.3",
     "gulp-sequence": "^1.0.0",
-    "gulp-sourcemaps": "^2.6.5",
-    "gulp-uglify": "^3.0.1",
-    "jest": "^24.3.1",
-    "jsdoc": "^3.5.5",
-    "node-red": "^0.20.8",
-    "node-red-node-test-helper": "^0.1.8",
-    "prettier": "^1.16.4",
+    "gulp-sourcemaps": "^3.0.0",
+    "gulp-uglify": "^3.0.2",
+    "jest": "^26.6.3",
+    "jsdoc": "^3.6.10",
+    "node-red": "^2.2.2",
+    "node-red-node-test-helper": "^0.2.7",
+    "prettier": "^2.6.2",
     "pump": "^3.0.0",
-    "remark-cli": "^6.0.1",
-    "remark-lint": "^6.0.4",
-    "remark-preset-lint-recommended": "^3.0.2",
-    "standard-version": "^5.0.0",
-    "tslib": "^1.9.3",
-    "uglify-js": "^3.4.9",
+    "read-pkg-up": "^7.0.0",
+    "remark-cli": "^10.0.1",
+    "remark-lint": "^9.1.1",
+    "remark-preset-lint-recommended": "^6.1.2",
+    "standard-version": "^9.5.0",
+    "tslib": "^2.4.0",
+    "typescript": "^4.7.2",
+    "uglify-js": "^3.15.5",
     "uglify-js-harmony": "^2.7.7",
-    "weak": "^1.0.1",
     "when": "^3.7.8"
   },
   "standard": {
@@ -115,8 +120,5 @@
       ]
     ]
   },
-  "browserslist": "> 0.25%, not dead",
-  "jest": {
-    "verbose": true
-  }
+  "browserslist": "> 0.25%, not dead"
 }

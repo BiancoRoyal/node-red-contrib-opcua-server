@@ -5,9 +5,9 @@
 
 jest.setTimeout(20000);
 
-const injectNode = require("node-red/nodes/core/core/20-inject");
-const functionNode = require("node-red/nodes/core/core/80-function");
-const debugMsgNode = require("node-red/nodes/core/core/58-debug");
+const injectNode = require("@node-red/nodes/core/common/20-inject");
+const functionNode = require("@node-red/nodes/core/function/10-function");
+const debugMsgNode = require("@node-red/nodes/core/common/21-debug");
 const helper = require("node-red-node-test-helper");
 helper.init(require.resolve("node-red"));
 const nut = require("../../src/server-node");
@@ -20,7 +20,7 @@ beforeAll(done => {
       id: "b603b743.46eef8",
       type: "opcua-compact-server",
       z: "96df9d1b.b1b87",
-      port: "54851",
+      port: 54851,
       endpoint: "",
       productUri: "",
       acceptExternalCommands: true,
@@ -39,20 +39,6 @@ beforeAll(done => {
         {
           name: "klaus",
           password: "landsdorf"
-        }
-      ],
-      xmlsetsOPCUA: [
-        {
-          name: "",
-          path: "public/vendor/harting/10_di.xml"
-        },
-        {
-          name: "",
-          path: "public/vendor/harting/20_autoid.xml"
-        },
-        {
-          name: "",
-          path: "public/vendor/harting/30_aim.xml"
         }
       ],
       publicCertificateFile: "",

@@ -1,12 +1,33 @@
-#!/usr/bin/env bash
+#!/usr/bin/env sh
+
+node -v
+
 rm -rf node_modules/
+
+rm -rf opcuaCompact/
+
+rm -rf code/
+
+rm -rf jcoverage/
+
+rm -rf docs/gen
 
 rm package-lock.json
 
-rm -rf certificates/
-
 npm cache verify
 
-npm i
+npm install
 
-gulp publish
+npm i --only=dev
+
+npm test
+
+npm run test:coverage
+
+npm run build
+
+npm run rewrite-changelog
+
+node -v
+
+npm audit

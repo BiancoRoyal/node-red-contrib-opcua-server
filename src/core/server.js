@@ -4,7 +4,10 @@
  Copyright (c) 2019 Sterfive (https://www.sterfive.com/)
  **/
 "use strict";
+
+const Console = require("console");
 module.exports = {
+  nodeOpcuaServer: require("node-opcua-server/dist/opcua_server"),
   choreCompact: require("./chore").de.bianco.royal.compact,
   debugLog: require("./chore").de.bianco.royal.compact.opcuaServerDebug,
   detailLog: require("./chore").de.bianco.royal.compact.opcuaServerDetailsDebug,
@@ -99,10 +102,11 @@ module.exports = {
     return xmlFiles;
   },
   defaultServerOptions: node => {
-    const applicationUri = module.exports.choreCompact.opcua.makeApplicationUrn(
+    /* const applicationUri = module.exports.choreCompact.opcua.makeApplicationUrn(
       module.exports.choreCompact.opcua.get_fully_qualified_domain_name(),
       node.productUri || "NodeOPCUA-Server-" + node.port
     );
+     */
 
     const certificateFile =
       node.publicCertificateFile ||
@@ -112,15 +116,15 @@ module.exports = {
       module.exports.choreCompact.coreSecurity.serverKeyFile("2048");
 
     // const SecurityPolicy = require("node-opcua").SecurityPolicy;
-    const registerServerMethod = module.exports.getRegisterServerMethod(
+    const registerServerMethod = 1; /* module.exports.getRegisterServerMethod(
       node.registerServerMethod
-    );
+    ) || 1; */
 
     return {
       port: node.port,
       nodeset_filename:
         module.exports.choreCompact.opcuaNodesets.standard_nodeset_file,
-      resourcePath: node.endpoint || "UA/NodeRED/Compact",
+      resourcePath: node.endpoint || "/UA/NodeRED/Compact",
       buildInfo: {
         productName: "Node-RED OPC UA Compact Server",
         buildNumber: "20190228",
@@ -137,7 +141,7 @@ module.exports = {
         }
       },
       serverInfo: {
-        applicationUri,
+        // applicationUri,
         productUri: node.productUri || "NodeOPCUA-Server-" + node.port,
         applicationName: { text: "NodeRED-Compact", locale: "en" },
         gatewayServerUri: null,
@@ -184,8 +188,11 @@ module.exports = {
   postInitialize: (node, opcuaServer) => {
     node.contribOPCUACompact.eventObjects = {}; // event objects should stay in memory
 
-    let addressSpace = opcuaServer.engine.addressSpace;
-    addressSpace.registerNamespace("http://biancoroyal.de/UA/NodeRED/Compact/");
+    let addressSpace = opcuaServer.engine?.addressSpace;
+
+    if (addressSpace) {
+      const namespace = addressSpace.getOwnNamespace()
+    }
 
     module.exports
       .constructAddressSpaceFromScript(
