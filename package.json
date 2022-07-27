@@ -24,7 +24,7 @@
     "debug": "4.1.1",
     "node-opcua": "0.7.0",
     "source-map-support": "0.5.10",
-    "vm2": "3.6.10"
+    "vm2": "3.9.10"
   },
   "scripts": {
     "postinstall": "node ./create_certificates.js demo --dev -s -r ./certificates",
