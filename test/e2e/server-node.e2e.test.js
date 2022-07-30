@@ -13,7 +13,7 @@ const debugMsgNode = require('@node-red/nodes/core/common/21-debug')
 var helper = require('node-red-node-test-helper')
 helper.init(require.resolve('node-red'))
 
-const flows = require('flows/server-flow')
+const flows = require('./flows/server-flow')
 const nut = require('../../src/server-node')
 const serverTestNodes = [injectNode, functionNode, debugMsgNode, nut]
 

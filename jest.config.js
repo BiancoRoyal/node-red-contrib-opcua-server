@@ -1,12 +1,16 @@
+/** @type {import('ts-jest/dist/types').InitialOptionsTsJest} */
+
 // For a detailed explanation regarding each configuration property, visit:
 // https://jestjs.io/docs/en/configuration.html
 
 module.exports = {
+  preset: 'ts-jest',
+
   // All imported modules in your tests should be mocked automatically
-  // automock: false,
+  automock: false,
 
   // Stop running tests after the first failure
-  bail: true,
+  bail: false,
 
   // Respect "browser" field in package.json when resolving modules
   // browser: false,
@@ -36,12 +40,9 @@ module.exports = {
   ],
 
   // A list of reporter names that Jest uses when writing coverage reports
-  // coverageReporters: [
-  //   "json",
-  //   "text",
-  //   "lcov",
-  //   "clover"
-  // ],
+  coverageReporters: [
+    'json-summary'
+  ],
 
   // An object that configures minimum threshold enforcement for coverage results
   // coverageThreshold: null,
@@ -63,7 +64,7 @@ module.exports = {
 
   // An array of directory names to be searched recursively up from the requiring module's location
   moduleDirectories: [
-    '<rootDir>/node_modules/'
+    'node_modules'
   ],
 
   // An array of file extensions your modules use
@@ -108,11 +109,12 @@ module.exports = {
   // restoreMocks: false,
 
   // The root directory that Jest should scan for tests and modules within
-  // rootDir: null,
+  // rootDir: 'suite',
+  // rootDir: 'test',
 
   // A list of paths to directories that Jest should use to search for files in
   // roots: [
-  //   "<rootDir>"
+  //  '<rootDir>'
   // ],
 
   // Allows you to use a custom runner instead of Jest's default test runner
@@ -138,8 +140,9 @@ module.exports = {
 
   // The glob patterns Jest uses to detect test files
   // testMatch: [
-  //   "**/__tests__/**/*.js?(x)",
-  //   "**/?(*.)+(spec|test).js?(x)"
+  //  '**/*suite.test.js?(x)'
+  // '**/test/**/*.js?(x)',
+  // 'test/**/?(*.)+(spec|test).js?(x)'
   // ],
 
   // An array of regexp pattern strings that are matched against all test paths, matched tests are skipped
@@ -152,7 +155,7 @@ module.exports = {
   ],
 
   // The regexp pattern Jest uses to detect test files
-  // testRegex: "",
+  // testRegex: 'suite.test',
 
   // This option allows the use of a custom results processor
   // testResultsProcessor: null,
