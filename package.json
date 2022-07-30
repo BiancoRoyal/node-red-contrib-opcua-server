@@ -28,7 +28,7 @@
   },
   "scripts": {
     "postinstall": "node ./create_certificates.js demo --dev -s -r ./certificates",
-    "test": "jest",
+    "test": "standard --fix && jest --detectOpenHandles --forceExit --logHeapUsage",
     "test:clearCache": "jest --clearCache",
     "test:coverage": "jest --coverage",
     "check:formatter": "prettier --check \"src/**/*.js\" && prettier --check \"test/**/*.js\"",

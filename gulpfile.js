@@ -1,6 +1,6 @@
 /**
  MIT License
- Copyright (c) 2018,2019 Bianco Royal Software Innovations® (https://bianco-royal.cloud/)
+ Copyright (c) 2018-2022 Klaus Landsdorf (http://node-red.plus/)
  **/
 
 'use strict'
@@ -58,7 +58,7 @@ function releaseWebContent () {
 }
 
 function releaseJSContent (cb) {
-  let anchor = '// SOURCE-MAP-REQUIRED'
+  const anchor = '// SOURCE-MAP-REQUIRED'
 
   pump([
     src('src/**/*.js')

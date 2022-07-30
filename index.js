@@ -1,4 +1,4 @@
 /**
  MIT License
- Copyright (c) 2018,2019 Bianco Royal Software Innovations® (https://bianco-royal.cloud/)
+ Copyright (c) 2018-2022 Klaus Landsdorf (http://node-red.plus/)
  **/
