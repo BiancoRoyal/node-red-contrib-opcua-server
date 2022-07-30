@@ -8,8 +8,10 @@ jest.setTimeout(20000);
 const injectNode = require("@node-red/nodes/core/common/20-inject");
 const functionNode = require("@node-red/nodes/core/function/10-function");
 const debugMsgNode = require("@node-red/nodes/core/common/21-debug");
+
 const helper = require("node-red-node-test-helper");
 helper.init(require.resolve("node-red"));
+
 const nut = require("../../src/server-node");
 const serverTestNodes = [injectNode, functionNode, debugMsgNode, nut];
 let flow;

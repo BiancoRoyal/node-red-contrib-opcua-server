@@ -25,7 +25,6 @@ describe("core.chore unit testing", function() {
         done();
       }
     });
-    done();
   });
 
   it("should have setStatusPending for node", function(done) {
@@ -37,7 +36,6 @@ describe("core.chore unit testing", function() {
         done();
       }
     });
-    done();
   });
 
   it("should have setStatusActive for node", function(done) {

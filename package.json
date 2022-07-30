@@ -1,6 +1,6 @@
 {
   "name": "node-red-contrib-opcua-server",
-  "version": "0.5.0",
+  "version": "1.1.0",
   "description": "Node-RED contribution nodes with next generation OPC UA in a compact and less dependencies package.",
   "author": "Bianco Royal <developers@bianco-royal.de>",
   "repository": {
@@ -8,7 +8,7 @@
     "url": "git+https://github.com/BiancoRoyal/node-red-contrib-opcua-server.git"
   },
   "license": "MIT",
-  "homepage": "https://github.com/BiancoRoyal/node-red-contrib-opcua-server#readme",
+  "homepage": "https://noderedplus.de/",
   "bugs": {
     "url": "https://github.com/BiancoRoyal/node-red-contrib-opcua-server/issues"
   },
@@ -20,11 +20,11 @@
     "create_certificates.js"
   ],
   "dependencies": {
-    "better-assert": "1.0.2",
-    "debug": "4.3.4",
-    "node-opcua": "2.68.1",
-    "source-map-support": "0.5.21",
-    "vm2": "3.9.9"
+    "better-assert": "~1.0.2",
+    "debug": "~4.3.4",
+    "node-opcua": "~2.64.1",
+    "source-map-support": "~0.5.21",
+    "vm2": "~3.9.10"
   },
   "scripts": {
     "postinstall": "node ./create_certificates.js demo --dev -s -r ./certificates",
@@ -41,60 +41,54 @@
     "clean:install": "./clean.sh",
     "clean:formatter": "prettier --write \"src/**/*.js\" && prettier --write \"test/**/*.js\"",
     "lint:md": "remark .",
-    "dev-link": "npm i && npm run build && npm link && cd ~/.node-red && npm link node-red-contrib-opcua-server",
-    "dev-unlink": "npm unlink node-red-contrib-iiot-opcua"
+    "dev-link": "npm i && npm run build && npm link",
+    "dev-unlink": "npm unlink node-red-contrib-iiot-opcua-server -g"
   },
   "engines": {
-    "node": ">=10"
+    "node": ">=14"
   },
   "node-red": {
+    "version": ">=2",
     "nodes": {
       "Compact-Server": "opcuaCompact/server-node.js"
     }
   },
   "keywords": [
     "node-red",
-    "node-opcua",
     "opcua",
     "automation",
-    "fieldbus",
     "iiot",
-    "biancoroyal",
-    "modbus"
+    "biancoroyal"
   ],
   "devDependencies": {
-    "@babel/cli": "^7.17.10",
-    "@babel/core": "^7.18.2",
-    "@babel/preset-env": "^7.18.2",
+    "@node-red/nodes": "^3.0.1",
+    "@types/cron": "^2.0.0",
     "@types/debug": "^4.1.7",
-    "@node-red/nodes": "^2.2.2",
-    "ci-publish": "^1.3.1",
-    "codacy-coverage": "^3.4.0",
-    "conventional-changelog-cli": "^2.2.2",
+    "@types/jest": "^28.1.6",
+    "@types/node-red": "^1.2.1",
+    "chai": "^4.3.6",
     "gulp": "^4.0.2",
     "gulp-babel": "^8.0.0",
     "gulp-clean": "^0.4.0",
+    "gulp-conventional-changelog": "^2.0.35",
     "gulp-htmlmin": "^5.0.1",
     "gulp-jsdoc3": "^3.0.0",
     "gulp-replace": "^1.1.3",
     "gulp-sequence": "^1.0.0",
     "gulp-sourcemaps": "^3.0.0",
+    "gulp-typescript": "^6.0.0-alpha.1",
     "gulp-uglify": "^3.0.2",
-    "jest": "^26.6.3",
+    "jest": "^28.1.3",
+    "jest-coverage-badges": "^1.1.2",
     "jsdoc": "^3.6.10",
-    "node-red": "^2.2.2",
-    "node-red-node-test-helper": "^0.2.7",
-    "prettier": "^2.6.2",
-    "pump": "^3.0.0",
-    "read-pkg-up": "^7.0.0",
-    "remark-cli": "^10.0.1",
-    "remark-lint": "^9.1.1",
-    "remark-preset-lint-recommended": "^6.1.2",
+    "nock": "^13.2.8",
+    "node-red": "^3.0.1",
+    "node-red-node-test-helper": "^0.3.0",
+    "standard": "^17.0.0",
     "standard-version": "^9.5.0",
-    "tslib": "^2.4.0",
-    "typescript": "^4.7.2",
-    "uglify-js": "^3.15.5",
-    "uglify-js-harmony": "^2.7.7",
+    "ts-jest": "^28.0.6",
+    "typescript": "^4.7.4",
+    "uglify-js": "^3.16.2",
     "when": "^3.7.8"
   },
   "standard": {

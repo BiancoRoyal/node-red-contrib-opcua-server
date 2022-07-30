@@ -1,4 +1,4 @@
-# [0.5.0](https://github.com/BiancoRoyal/node-red-contrib-opcua-server/compare/v0.4.0...v0.5.0) (2022-05-27)
+# [1.1.0](https://github.com/BiancoRoyal/node-red-contrib-opcua-server/compare/v0.4.0...v1.1.0) (2022-07-26)
 
 
 ### Bug Fixes

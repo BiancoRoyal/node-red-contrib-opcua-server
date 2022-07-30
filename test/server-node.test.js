@@ -1,13 +1,16 @@
 /**
  MIT License
- Copyright (c) 2018,2019 Bianco Royal Software Innovations® (https://bianco-royal.cloud/)
+
+ Copyright (c) 2018-2022 Bianco Royal Software Innovations® (https://bianco-royal.cloud/)
  **/
 
 jest.setTimeout(20000);
 
-const injectNode = require("@node-red/nodes/core/common/20-inject");
-const helper = require("node-red-node-test-helper");
-helper.init(require.resolve("node-red"));
+const injectNode = require('@node-red/nodes/core/common/20-inject')
+
+var helper = require('node-red-node-test-helper')
+helper.init(require.resolve('node-red'))
+
 const nut = require("../src/server-node.js");
 const serverTestNodes = [injectNode, nut];
 let flow, flow2, errorFlow;

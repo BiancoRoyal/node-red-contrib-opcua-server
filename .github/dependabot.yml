@@ -1,0 +1,11 @@
+version: 2
+updates:
+  - package-ecosystem: 'npm'
+    directory: '/'
+    target-branch: "develop"
+    schedule:
+      interval: "weekly"
+    allow:
+      - dependency-type: "production"
+    ignore:
+      - dependency-name: "node-opcua*"
