@@ -1,8 +1,12 @@
-![Platform Node-RED](http://b.repl.ca/v1/Platform-Node--RED-red.png)
+![Platform Node-RED](https://img.shields.io/badge/Platform-Node--RED-red.png)
 ![Contrib OPC UA](http://b.repl.ca/v1/Contrib-OPC--UA-blue.png)
+![License](https://img.shields.io/badge/License-MIT-orange.png)
+[![NPM version](https://badge.fury.io/js/node-red-contrib-opcua-server.png)](https://www.npmjs.com/package/node-red-contrib-opcua-server)
+![NodeJS_Version](https://img.shields.io/badge/NodeJS-14.19.1-green.png)
+[![Standard - JavaScript Style Guide](https://img.shields.io/badge/code%20style-standard-brightgreen.svg)](http://standardjs.com/)
+[![NPM download](https://img.shields.io/npm/dm/node-red-contrib-iiot-opcua.svg)](https://www.npmtrends.com/node-red-contrib-iiot-opcua)
 [![Repository GitHub](http://b.repl.ca/v1/Repository-GitHub-orange.png)](https://github.com/BiancoRoyal/node-red-contrib-opcua-server)
-[![Quality Travis CI](http://b.repl.ca/v1/Quality-Travis_CI-green.png)](https://travis-ci.org/BiancoRoyal/node-red-contrib-opcua-server)
-[![Build Status](https://travis-ci.org/BiancoRoyal/node-red-contrib-opcua-server.svg?branch=master)](https://travis-ci.org/BiancoRoyal/node-red-contrib-opcua-server)
+[![Build and publish](https://github.com/BiancoRoyal/node-red-contrib-opcua-server/actions/workflows/build.yml/badge.svg)](https://github.com/BiancoRoyal/node-red-contrib-opcua-server/actions/workflows/build.yml)
 [![Codacy Badge](https://app.codacy.com/project/badge/Grade/b229fe21da624408b51d075e8e0800cc)](https://www.codacy.com/gh/BiancoRoyal/node-red-contrib-opcua-server/dashboard?utm_source=github.com&amp;utm_medium=referral&amp;utm_content=BiancoRoyal/node-red-contrib-opcua-server&amp;utm_campaign=Badge_Grade)
 
 # node-red-contrib-opcua-server
