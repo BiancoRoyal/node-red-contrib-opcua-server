@@ -3,7 +3,7 @@
 [![Repository GitHub](http://b.repl.ca/v1/Repository-GitHub-orange.png)](https://github.com/BiancoRoyal/node-red-contrib-opcua-server)
 [![Quality Travis CI](http://b.repl.ca/v1/Quality-Travis_CI-green.png)](https://travis-ci.org/BiancoRoyal/node-red-contrib-opcua-server)
 [![Build Status](https://travis-ci.org/BiancoRoyal/node-red-contrib-opcua-server.svg?branch=master)](https://travis-ci.org/BiancoRoyal/node-red-contrib-opcua-server)
-[![Codacy Badge](https://api.codacy.com/project/badge/Grade/e17c853396bc4ebbacee88eb2ddf1b55)](https://www.codacy.com/app/klaus/node-red-contrib-opcua-server?utm_source=github.com&utm_medium=referral&utm_content=BiancoRoyal/node-red-contrib-opcua-server&utm_campaign=Badge_Grade)
+[![Codacy Badge](https://app.codacy.com/project/badge/Grade/b229fe21da624408b51d075e8e0800cc)](https://www.codacy.com/gh/BiancoRoyal/node-red-contrib-opcua-server/dashboard?utm_source=github.com&amp;utm_medium=referral&amp;utm_content=BiancoRoyal/node-red-contrib-opcua-server&amp;utm_campaign=Badge_Grade)
 
 # node-red-contrib-opcua-server
 
