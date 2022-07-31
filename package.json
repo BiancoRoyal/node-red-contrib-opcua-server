@@ -27,8 +27,8 @@
     "vm2": "~3.9.10"
   },
   "scripts": {
-    "postinstall": "node ./create_certificates.js demo --dev -s -r ./certificates",
-    "test": "standard --fix && jest --detectOpenHandles --forceExit --logHeapUsage",
+    "postinstall": "node ./create_certificates.js demo --dev -s -r ./certificates && node ./supporter.js",
+    "test": "npm run check:formatter && jest --detectOpenHandles --forceExit --logHeapUsage",
     "test:clearCache": "jest --clearCache",
     "test:coverage": "jest --coverage",
     "check:formatter": "prettier --check \"src/**/*.js\" && prettier --check \"test/**/*.js\"",
@@ -37,12 +37,14 @@
     "release": "npm run clean:formatter && standard-version",
     "release:alpha": "npm run clean:formatter && npm run release -- --prerelease alpha",
     "inspect": "jsinspect ./src > .jsinspect-results.json",
-    "rewrite-changelog": "conventional-changelog -p angular -i CHANGELOG.md -s -r 0",
+    "rewrite-changelog": "gulp changelog",
+    "clean": "gulp clean",
     "clean:install": "./clean.sh",
     "clean:formatter": "prettier --write \"src/**/*.js\" && prettier --write \"test/**/*.js\"",
     "lint:md": "remark .",
-    "dev-link": "npm i && npm run build && npm link",
-    "dev-unlink": "npm unlink node-red-contrib-iiot-opcua-server -g"
+    "build": "npm run clean:formatter && gulp publish",
+    "dev-link": "npm install && npm run build && npm link",
+    "dev-unlink": "npm unlink node-red-contrib-opcua-server -g"
   },
   "engines": {
     "node": ">=14"
@@ -61,6 +63,9 @@
     "biancoroyal"
   ],
   "devDependencies": {
+    "@babel/cli": "^7.18.9",
+    "@babel/core": "^7.18.9",
+    "@babel/preset-env": "^7.18.9",
     "@node-red/nodes": "^3.0.1",
     "@types/cron": "^2.0.0",
     "@types/debug": "^4.1.7",
@@ -84,7 +89,8 @@
     "nock": "^13.2.8",
     "node-red": "^3.0.1",
     "node-red-node-test-helper": "^0.3.0",
-    "standard": "^17.0.0",
+    "pump": "^3.0.0",
+    "prettier": "^2.7.1",
     "standard-version": "^9.5.0",
     "ts-jest": "^28.0.6",
     "typescript": "^4.7.4",

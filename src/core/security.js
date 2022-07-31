@@ -2,40 +2,40 @@
  MIT License
  Copyright (c) 2018-2022 Klaus Landsdorf (http://node-red.plus/)
  **/
-'use strict'
-const path = require('path')
-const requireResolve = require.resolve('node-opcua-server')
+"use strict";
+const path = require("path");
+const requireResolve = require.resolve("node-opcua-server");
 
 /* istanbul ignore next */
-function isWindows () {
-  return process.platform === 'win32'
+function isWindows() {
+  return process.platform === "win32";
 }
 
-function checkUserLogon () {
-  return true
+function checkUserLogon() {
+  return true;
 }
 
 /* istanbul ignore next */
-function getPackagePathFromIndex () {
+function getPackagePathFromIndex() {
   if (isWindows()) {
-    return requireResolve.replace('\\index.js', '')
+    return requireResolve.replace("\\index.js", "");
   } else {
-    return requireResolve.replace('/index.js', '')
+    return requireResolve.replace("/index.js", "");
   }
 }
 
-function serverCertificateFile (keybits) {
+function serverCertificateFile(keybits) {
   return path.join(
     __dirname,
-    '../../certificates/server_selfsigned_cert_' + keybits + '.pem'
-  )
+    "../../certificates/server_selfsigned_cert_" + keybits + ".pem"
+  );
 }
 
-function serverKeyFile (keybits) {
+function serverKeyFile(keybits) {
   return path.join(
     __dirname,
-    '../../certificates/server_key_' + keybits + '.pem'
-  )
+    "../../certificates/server_key_" + keybits + ".pem"
+  );
 }
 
 module.exports = {
@@ -43,5 +43,5 @@ module.exports = {
   checkUserLogon,
   getPackagePathFromIndex,
   serverCertificateFile,
-  serverKeyFile
-}
+  serverKeyFile,
+};

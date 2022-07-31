@@ -5,10 +5,10 @@
 
 jest.setTimeout(10000);
 
-describe("core.security unit testing", function() {
+describe("core.security unit testing", function () {
   const coreSecurity = require("../../src/core/security");
 
-  it("should hold the default security functions for the nodes", function(done) {
+  it("should hold the default security functions for the nodes", function (done) {
     const contrib = coreSecurity;
     expect(contrib.checkUserLogon).toBeDefined();
     expect(contrib.isWindows).toBeDefined();
@@ -22,7 +22,7 @@ describe("core.security unit testing", function() {
     done();
   });
 
-  it("should be true in user check", function(done) {
+  it("should be true in user check", function (done) {
     const contrib = coreSecurity;
     expect(contrib.checkUserLogon()).toBeTruthy();
     done();

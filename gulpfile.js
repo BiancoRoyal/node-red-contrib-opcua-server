@@ -1,7 +1,10 @@
-/**
- MIT License
- Copyright (c) 2018-2022 Klaus Landsdorf (http://node-red.plus/)
- **/
+/*
+ The MIT License
+
+ Copyright (c) 2017-2022 Klaus Landsdorf (http://node-red.plus/)
+ All rights reserved.
+ node-red-contrib-opcuaCompact
+ */
 
 'use strict'
 
@@ -14,6 +17,7 @@ const babel = require('gulp-babel')
 const sourcemaps = require('gulp-sourcemaps')
 const pump = require('pump')
 const replace = require('gulp-replace')
+const changelog = require('gulp-conventional-changelog')
 
 function releaseIcons () {
   return src('src/icons/**/*').pipe(dest('opcuaCompact/icons'))
@@ -40,6 +44,24 @@ function cleanProject () {
     .pipe(clean({ force: true }))
 }
 
+function changelogUpdate () {
+  return src('CHANGELOG.md')
+    .pipe(changelog({
+      // conventional-changelog options go here
+      preset: 'angular',
+      releaseCount: 0
+    }, {
+      // context goes here
+    }, {
+      // git-raw-commits options go here
+    }, {
+      // conventional-commits-parser options go here
+    }, {
+      // conventional-changelog-writer options go here
+    }))
+    .pipe(dest('./'))
+}
+
 function releaseWebContent () {
   return src('src/*.htm*')
     .pipe(htmlmin({
@@ -61,13 +83,25 @@ function releaseJSContent (cb) {
   const anchor = '// SOURCE-MAP-REQUIRED'
 
   pump([
-    src('src/**/*.js')
-      .pipe(sourcemaps.init({ loadMaps: true }))
-      .pipe(replace(anchor, 'require(\'source-map-support\').install()'))
-      .pipe(babel({ presets: ['@babel/env'] }))
-      .pipe(uglify())
-      .pipe(sourcemaps.write('maps')), dest('opcuaCompact')],
-  cb)
+      src('src/**/*.js')
+        .pipe(sourcemaps.init({ loadMaps: true }))
+        .pipe(replace(anchor, 'require(\'source-map-support\').install()'))
+        .pipe(babel({ presets: ['@babel/env'] }))
+        .pipe(uglify())
+        .pipe(sourcemaps.write('maps')), dest('opcuaCompact')],
+    cb)
+}
+
+function codeJSContent (cb) {
+  const anchor = '// SOURCE-MAP-REQUIRED'
+
+  pump([
+      src('src/**/*.js')
+        .pipe(sourcemaps.init({ loadMaps: true }))
+        .pipe(replace(anchor, 'require(\'source-map-support\').install()'))
+        .pipe(babel({ presets: ['@babel/env'] }))
+        .pipe(sourcemaps.write('maps')), dest('code')],
+    cb)
 }
 
 function doc (cb) {
@@ -75,7 +109,9 @@ function doc (cb) {
     .pipe(jsdoc(cb))
 }
 
+exports.default = series(cleanProject, releaseWebContent, releaseJSContent, codeJSContent, releaseLocal, releasePublicData, releaseIcons, doc, docIcons, docImages, changelogUpdate)
 exports.clean = cleanProject
-exports.build = series(cleanProject, releaseWebContent, releaseJSContent, releaseLocal)
+exports.build = series(cleanProject, releaseWebContent, releaseJSContent, releaseLocal, codeJSContent)
 exports.buildDocs = series(doc, docIcons, docImages)
-exports.publish = series(cleanProject, releaseWebContent, releaseJSContent, releaseLocal, releasePublicData, releaseIcons, doc, docIcons, docImages)
+exports.changelog = changelogUpdate
+exports.publish = series(cleanProject, releaseWebContent, releaseJSContent, releaseLocal, codeJSContent, releasePublicData, releaseIcons, doc, docIcons, docImages, changelogUpdate)

@@ -303,7 +303,7 @@
           id: "node-input-server-xmlsets-name" + id,
           type: "text",
           class: "xmlsetName",
-          style: "margin-left:5px;width:75px;",
+          style: "margin-left:5px;width:30%;min-width:60px",
           placeholder: "name"
         }).appendTo(row);
 
@@ -311,8 +311,8 @@
           id: "node-input-server-xmlsets-path" + id,
           class: "xmlsetPath",
           type: "text",
-          style: "margin: 0 auto;width:68%;min-width:60px;margin-left:5px",
-          placeholder: "public/vendor/opc-foundation/xml/Opc.ISA95.NodeSet2.xml"
+          style: "margin: 0 auto;width:60%;min-width:70px;margin-left:5px",
+          placeholder: "public/nodesets/Opc.Ua.Di.NodeSet2.xml"
         }).appendTo(row);
 
         nameField.val(xmlset.name);

@@ -64,8 +64,9 @@ typings/
 
 certificates/
 jcoverage/
-docs/
+docs/gen/
 opcuaCompact/
+code/
 
 \.jsinspect-results\.json
 

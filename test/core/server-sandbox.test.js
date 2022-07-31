@@ -5,30 +5,30 @@
 
 jest.setTimeout(10000);
 
-describe("core.server-sandbox unit testing", function() {
+describe("core.server-sandbox unit testing", function () {
   const coreServerSandbox = require("../../src/core/server-sandbox");
 
-  it("should hold the default state functions for the node", function(done) {
+  it("should hold the default state functions for the node", function (done) {
     const contrib = coreServerSandbox;
     expect(contrib.initialize).toBeDefined();
     done();
   });
 
-  it("should initialize debugLog", function(done) {
+  it("should initialize debugLog", function (done) {
     const contrib = coreServerSandbox;
     expect(contrib.initialize).toBeDefined();
     expect(contrib.debugLog).toBeDefined();
     done();
   });
 
-  it("should initialize errorLog", function(done) {
+  it("should initialize errorLog", function (done) {
     const contrib = coreServerSandbox;
     expect(contrib.initialize).toBeDefined();
     expect(contrib.errorLog).toBeDefined();
     done();
   });
 
-  it("should initialize and call done", function(done) {
+  it("should initialize and call done", function (done) {
     const contrib = coreServerSandbox;
     const EventEmitter = require("events");
     let node = new EventEmitter();
