@@ -7,6 +7,7 @@
 * remove ISA95  ([15eb1e6](https://github.com/BiancoRoyal/node-red-contrib-opcua-server/commit/15eb1e6f65137d07806297b39a49186179478e77))
 * set back to HIDDEN default in discovery because of crashing LDS without a running LDS  ([7e7377e](https://github.com/BiancoRoyal/node-red-contrib-opcua-server/commit/7e7377e2c1cc998dc425a8a21214258e94a203d8))
 * travis npm ([d67f905](https://github.com/BiancoRoyal/node-red-contrib-opcua-server/commit/d67f9050dc05c46e0901d88029456ab017b04249))
+* xml sets moved but more ([a045ee9](https://github.com/BiancoRoyal/node-red-contrib-opcua-server/commit/a045ee926f41902f97c2b3847d390ee3eb316d8a))
 
 
 

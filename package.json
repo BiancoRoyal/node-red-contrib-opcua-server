@@ -27,13 +27,16 @@
     "vm2": "~3.9.10"
   },
   "scripts": {
+    "build": "npm run clean:formatter && gulp publish",
     "postinstall": "node ./create_certificates.js demo --dev -s -r ./certificates && node ./supporter.js",
     "test": "npm run check:formatter && jest --detectOpenHandles --forceExit --logHeapUsage",
     "test:clearCache": "jest --clearCache",
     "test:coverage": "jest --coverage",
+    "test:ci": "npm run test -- --ci --silent --json --outputFile=scripts/out.json",
+    "coverage": "gulp clean && rm -rf ./jcoverage && jest --coverage --detectOpenHandles --forceExit --logHeapUsage --debug",
+    "coverage:ci": "jest --coverage --detectOpenHandles --forceExit --logHeapUsage --ci --silent --json --outputFile=scripts/out.json",
+    "coverage:upload": "cat ./jcoverage/lcov.info | codacy-coverage --token $CODACY_PROJECT_TOKEN_OPCUA_SERVER",
     "check:formatter": "prettier --check \"src/**/*.js\" && prettier --check \"test/**/*.js\"",
-    "coverage:ci": "npm run check:formatter && jest --coverage --verbose --detectOpenHandles --forceExit --logHeapUsage --ci --debug",
-    "coverage:upload": "cat ./jcoverage/lcov.info | codacy-coverage --token 1aa4f8d6feaf4e4e8ffb7f27a12b1116",
     "release": "npm run clean:formatter && standard-version",
     "release:alpha": "npm run clean:formatter && npm run release -- --prerelease alpha",
     "inspect": "jsinspect ./src > .jsinspect-results.json",
@@ -42,7 +45,7 @@
     "clean:install": "./clean.sh",
     "clean:formatter": "prettier --write \"src/**/*.js\" && prettier --write \"test/**/*.js\"",
     "lint:md": "remark .",
-    "build": "npm run clean:formatter && gulp publish",
+    "prepublishOnly": "npm test && npm run coverage && npm run build",
     "dev-link": "npm install && npm run build && npm link",
     "dev-unlink": "npm unlink node-red-contrib-opcua-server -g"
   },
