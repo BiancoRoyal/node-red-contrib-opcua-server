@@ -150,6 +150,14 @@
           );
         }
       },
+      outputs: {
+        value: 0,
+        validate: function(v) {
+          return (
+            v === "" || (RED.validators.number(v) && v >= 0 && v <= 10)
+          );
+        }
+      },
       serverShutdownTimeout: {
         value: 100,
         validate: function(v) {
@@ -164,7 +172,6 @@
       }
     },
     inputs: 0,
-    outputs: 0,
     align: "right",
     icon: "icon.png",
     label: function() {
@@ -622,6 +629,10 @@
           <div class="form-row">
               <label for="node-input-delayToClose"><i class="icon-time"></i> <span data-i18n="opcua-compact-contrib.label.delayToClose"></span></label>
               <input type="text" id="node-input-delayToClose" placeholder="200" style="width:80px">
+          </div>
+          <div class='form-row'> 
+              <label for='node-input-outputs'> Outputs
+              </label> <input type='text' id='node-input-outputs' placeholder='0' style='width:80px'> 
           </div>
           <div class="form-row">
               <label for="node-input-name"><i class="fa fa-tag"></i> <span data-i18n="node-red:common.label.name"></span></label>
