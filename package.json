@@ -23,7 +23,7 @@
   "dependencies": {
     "better-assert": "~1.0.2",
     "debug": "~4.3.4",
-    "node-opcua": "~2.64.1",
+    "node-opcua": "~2.74.0",
     "source-map-support": "~0.5.21",
     "vm2": "~3.9.10"
   },
@@ -76,7 +76,7 @@
     "@types/jest": "^28.1.6",
     "@types/node-red": "^1.2.1",
     "chai": "^4.3.6",
-    "gulp": "^4.0.2",
+    "gulp": "^5.0.0",
     "gulp-babel": "^8.0.0",
     "gulp-clean": "^0.4.0",
     "gulp-conventional-changelog": "^2.0.35",
