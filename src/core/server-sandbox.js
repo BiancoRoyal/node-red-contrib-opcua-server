@@ -62,16 +62,19 @@ module.exports = {
         },
       },
       setTimeout: function () {
-        const func = arguments[0];
-        const timerId = setTimeout.apply(this, arguments);
-        arguments[0] = function () {
+        const args = Array.prototype.slice.call(arguments);
+        const func = args[0];
+        const extraArgs = args.slice(2);
+        let timerId;
+        args[0] = function () {
           sandbox.clearTimeout(timerId);
           try {
-            func.apply(this, arguments);
+            func.apply(this, extraArgs);
           } catch (err) {
             node.error(err, {});
           }
         };
+        timerId = setTimeout.apply(this, args);
         node.outstandingTimers.push(timerId);
         return timerId;
       },
@@ -83,15 +86,17 @@ module.exports = {
         }
       },
       setInterval: function () {
-        const func = arguments[0];
-        const timerId = setInterval.apply(this, arguments);
-        arguments[0] = function () {
+        const args = Array.prototype.slice.call(arguments);
+        const func = args[0];
+        const extraArgs = args.slice(2);
+        args[0] = function () {
           try {
-            func.apply(this, arguments);
+            func.apply(this, extraArgs);
           } catch (err) {
             node.error(err, {});
           }
         };
+        const timerId = setInterval.apply(this, args);
         node.outstandingIntervals.push(timerId);
         return timerId;
       },
